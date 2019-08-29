@@ -1,0 +1,30 @@
+﻿@model Xdsoft.RTK.ExtCrmWeb.ViewModels.IndexViewModel
+
+
+<script>
+    function foo(source, event) {
+
+        //console.log("source", source);
+        console.log("source.mainElement", source.mainElement);
+        //console.log("event", event);
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        moveSaveCancelBar();
+    });
+
+    $(document).ajaxComplete(function () {
+        moveSaveCancelBar();
+    });
+
+    function moveSaveCancelBar() {
+        var saveCancelBar = $('#GridView_DXStatus');
+        var mainTable = $('#GridView_DXHeaderTable');
+        mainTable.after(saveCancelBar);
+    }
+
+</script>
+
+@Html.Action("BatchEditingPartial", new { parenttableid = Model.Parenttableid })

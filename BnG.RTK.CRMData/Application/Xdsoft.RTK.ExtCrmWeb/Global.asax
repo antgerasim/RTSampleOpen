@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="Xdsoft.RTK.ExtCrmWeb.MvcApplication" Language="C#" %>

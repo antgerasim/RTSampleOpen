@@ -1,0 +1,800 @@
+﻿@model Xdsoft.RTK.ExtCrmWeb.Models.Map.InitModel
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
+@*<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>*@
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet-src.js" integrity="sha512-+ZaXMZ7sjFMiCigvm8WjllFy6g3aou3+GZngAtugLzrmPFKFK7yjSri0XnElvCTu/PrifAYQuxZTybAEkA8VOA==" crossorigin=""></script>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+        border: 5px;
+        border-color: blue
+    }
+
+    .legend {
+        line-height: 18px;
+        color: #555;
+    }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+    .report-switcher {
+        padding-top: 50%;
+        padding-left: 50%;
+    }
+</style>
+
+<div id="map">
+
+</div>
+
+<script>
+    //debugger;
+    var initMapModel = @Html.Raw(Json.Encode(Model));
+    console.log('initMapModel', initMapModel);
+    //var url = new URL(window.location.href);
+    //var reportType = url.searchParams.get('reporttype');
+    var reportType = initMapModel.ReportType;
+
+    var geojson = createGeojsonFrom(initMapModel.MapModels, reportType);
+    var info = {};
+    var dropDownList = {};
+    var geojsonLayer = {};
+    var map = {};
+
+
+    var bounds = new L.LatLngBounds(new L.LatLng(62.5, 108.0), new L.LatLng(62.5, 108.0));
+    map = L.map('map', {
+        center: [62.5, 108.0],
+        zoom: 3,
+        minZoom: 1,
+        maxZoom: 6,
+        zoomDelta: 0.25,
+        zoomSnap: 0,
+        wheelPxPerZoomLevel: 100,
+        maxBoundsViscosity: 1.0
+    });
+
+    reportType = reportType !== null ? reportType :'projectcount';
+
+    switch (reportType) {
+        case 'projectcount':
+            createProjectCountReport(geojson);
+            break;
+        case 'productreadiness':
+            createProductReadinessReport(geojson);
+            break;
+        default:
+    }
+
+
+    function createProjectCountReport(geojson) {
+        geojsonLayer = L.geoJson(geojson, {
+
+            style: style,
+            coordsToLatLng: function (coords) {
+                //latitude , longitude, altitude
+                //return new L.LatLng(coords[1], coords[0], coords[2]); //Normal behavior
+                return new L.LatLng(coords[0], coords[1]);
+            },
+            onEachFeature: onEachFeature
+        });
+        //
+        geojsonLayer.eachLayer(function (layer) {
+            layer.bindPopup(layer.feature.properties.name);
+        });
+
+        geojsonLayer.addTo(map);
+
+        //report data on hover
+        info = L.control({ position: 'topleft' }); //L.control({ position: 'topright' });
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+        info.update = function (props) {
+            this._div.innerHTML = '<h4>Количество проектов у РФ</h4>' + (props ?
+                '<b>' + props.name + '</b><br /><p> Количество проектов: ' + props.reportdata + '</p>' :
+                'Наведите на субъект');
+        };
+        info.addTo(map);
+
+        //reportswitcher control
+        rSwitcher = L.control({ position: 'bottomright' })
+        // rSwitcher = L.control({ position: 'topleft' })
+
+        rSwitcher.onAdd = function (map) {
+            //var div = L.DomUtil.create('div', 'report-switcher');
+            div = L.DomUtil.create('div');//add class here as 2nd srg
+            div.innerHTML = createReportTypeRadioBtns();
+            div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
+            return div;
+        }
+        rSwitcher.addTo(map);
+
+
+
+        $("input[type=radio]").change(function () {
+            reportType = this.value.toLowerCase();
+            switch (reportType) {
+                case "projectcount":
+                    console.log(reportType + " отчет был выбран");
+                    map.removeLayer(geojsonLayer);
+                    $.ajax({
+                        type: "POST",
+                        url: "/map/GetProjectDataPost",
+                        data: { requestType: reportType },
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (ajaxResponse) {
+                            if (ajaxResponse != null) {
+                                geojson = mergeGeojsonFrom(initMapModel.MapModels, ajaxResponse);
+                                geojsonLayer = L.geoJson(geojson, {
+                                    style: style,
+                                    coordsToLatLng: function (coords) {
+                                        //latitude , longitude, altitude
+                                        //return new L.LatLng(coords[1], coords[0], coords[2]); //Normal behavior
+                                        return new L.LatLng(coords[0], coords[1]);
+                                    },
+                                    onEachFeature: onEachFeature
+                                });
+
+                                geojsonLayer.eachLayer(function (layer) {
+                                    layer.bindPopup(layer.feature.properties.name);
+                                });
+
+                                geojsonLayer.addTo(map);
+                            }
+                        }
+                    });
+                    break;
+                case "productreadiness":
+                    console.log(reportType + " отчет был выбран");
+                    //map.removeLayer(geojsonLayer); // or
+                    $.ajax({
+                        type: "POST",
+                        url: "/map/GetProjectDataPost",
+                        data: { requestType: reportType },
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (ajaxResponse) {
+                            if (ajaxResponse != null) {
+                                //geojsonlayer
+                                if (geojsonLayer != undefined) {
+                                    map.removeLayer(geojsonLayer)
+                                }
+                                geojson = mergeGeojsonFrom(initMapModel.MapModels, ajaxResponse.ReportData, reportType);
+                                geojsonLayer = L.geoJson(geojson, {
+                                    style: style,
+                                    coordsToLatLng: function (coords) {
+                                        return new L.LatLng(coords[0], coords[1]);
+                                    },
+                                    onEachFeature: onEachFeature
+                                });
+                                geojsonLayer.eachLayer(function (layer) {
+                                    layer.bindPopup(layer.feature.properties.name);
+                                });
+                                geojsonLayer.addTo(map);
+                                //end geojsonlayer
+
+
+                                dropDownList = null;
+                                dropDownList = L.control({ position: 'topright' });
+                                dropDownList.onAdd = function (map) {
+                                    //var div = L.DomUtil.create('div', 'info legend');
+                                    var div = L.DomUtil.create('div');
+                                    //div.innerHTML = createDropDownFrom(dummyProductList);
+                                    div.innerHTML = createDropDownFrom(initMapModel.ProductCatalog);
+
+                                    div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
+
+                                    return div;
+                                };
+
+                                dropDownList.addTo(map);
+
+                                var legend = L.control({ position: 'bottomright' });
+
+                                legend.onAdd = function (map) {
+                                    //debugger;
+                                    console.log()
+                                    var div = L.DomUtil.create('div', 'info legend');
+                                    //var grades = [1, 100000000, 100000001];
+                                    var grades = ['Фаза реализация', 'Фаза заверешен', 'Фаза экплуатация'];
+
+                                    var labels = [];
+                                    var tempLabel = '';
+                                    //debugger;
+
+                                    for (var i = 0; i <= grades.length; i++) {
+                                        //from = grades[i];
+                                        //to = grades[i + 1];
+                                        grade = grades[i];
+                                        //var tem
+                                        switch (i) {
+                                            case 0: //зеленый
+                                                tempLabel = 'Фаза реализация';
+                                                break;
+                                            case 1: //желтый
+                                                tempLabel = 'Фаза завершен';
+                                                break;
+                                            case 2: //синий
+                                                tempLabel = 'Фаза эксплуатация';
+                                                break;
+                                            default:
+                                                tempLabel = 'Нет'
+                                        }
+
+                                        labels.push(
+                                            '<i style="background:' + getColor('productreadiness', (grade)) + '"></i>' + tempLabel //remove hardcode projecttype
+                                        );
+                                    }
+
+                                    div.innerHTML = labels.join('<br>');
+                                    return div;
+                                };
+
+                                legend.addTo(map);
+
+                                $('#dropDownId').change(function () {
+                                    var optionValue = this.value;
+                                    console.log('DropDownoptionvalue', optionValue);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/map/getinitmodel",
+                                        data: {
+                                            reporttype: 'productreadiness', //reportType hardcode here
+                                            productid: optionValue
+                                        },
+                                        success: function (ajaxResponse) {
+                                            if (ajaxResponse != null) {
+                                                //3. add new geojsonlayer
+                                                // geojson = mergeGeojsonFrom(initMapModel, ajaxResponse, reportType);
+                                                console.log('ajaxResponse', ajaxResponse);
+                                                map.removeLayer(geojsonLayer);
+                                                //map = {};
+                                                geojson = {}; //reset
+
+
+                                                geojson = createGeojsonFrom(ajaxResponse.MapModels, reportType);
+                                                geojsonLayer = L.geoJson(geojson, {
+
+                                                    style: style,
+                                                    coordsToLatLng: function (coords) {
+                                                        //latitude , longitude, altitude
+                                                        //return new L.LatLng(coords[1], coords[0], coords[2]); //Normal behavior
+                                                        return new L.LatLng(coords[0], coords[1]);
+                                                    },
+                                                    onEachFeature: onEachFeature
+                                                });
+
+                                                //console.log('ajaxgeojson', geojson);
+                                                geojsonLayer.addTo(map);
+                                            }
+                                        },
+                                        failure: function (response) {
+                                            console.log(response.responseText);
+                                        },
+                                        error: function (response) {
+                                            console.log(response.responseText);
+                                        }
+                                    });
+
+                                    //map.removeLayer(geojsonLayer);
+
+                                });//end dropdown event
+
+
+                            }//end if
+                        }
+                    });
+                    break;
+                default:
+                    console.log(reportType + " отчет был выбран");
+            }
+        });
+
+    }
+
+    function createProductReadinessReport() {
+
+        geojsonLayer = L.geoJson(geojson, {
+
+            style: style,
+            coordsToLatLng: function (coords) {
+                //latitude , longitude, altitude
+                //return new L.LatLng(coords[1], coords[0], coords[2]); //Normal behavior
+                return new L.LatLng(coords[0], coords[1]);
+            },
+            onEachFeature: onEachFeature
+        });
+
+        geojsonLayer.eachLayer(function (layer) {
+            //console.log('layer.feature',layer.feature);
+            layer.bindPopup(layer.feature.properties.name);
+        });
+
+        geojsonLayer.addTo(map);
+        //report data on hover
+        info = L.control({ position: 'topleft' }); //L.control({ position: 'topright' });
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+        info.update = function (props) {
+            this._div.innerHTML = '<h4>Готовность продуктов у РФ</h4>' + (props ?
+                '<b>' + props.name + '</b><br /><p> готовность продукта: ' + props.reportdata + '</p>' :
+                'Наведите на субъект');
+            //console.log('props', props);
+        };
+
+        info.addTo(map);
+
+        //reportswitcher control
+        rSwitcher = L.control({ position: 'bottomright' })
+        // rSwitcher = L.control({ position: 'topleft' })
+
+        rSwitcher.onAdd = function (map) {
+            //var div = L.DomUtil.create('div', 'report-switcher');
+            div = L.DomUtil.create('div');//add class here as 2nd srg
+            div.innerHTML = createReportTypeRadioBtns();
+            div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
+            return div;
+        }
+        rSwitcher.addTo(map);
+
+        dropDownList = null;
+        dropDownList = L.control({ position: 'topright' });
+        dropDownList.onAdd = function (map) {
+            //var div = L.DomUtil.create('div', 'info legend');
+            var div = L.DomUtil.create('div');
+            //div.innerHTML = createDropDownFrom(dummyProductList);
+            div.innerHTML = createDropDownFrom(initMapModel.ProductCatalog);
+
+            div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
+
+            return div;
+        };
+
+        dropDownList.addTo(map);
+
+        var legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function (map) {
+            debugger;
+            console.log()
+            var div = L.DomUtil.create('div', 'info legend');
+            //var grades = [1, 100000000, 100000001];
+            var grades = ['Фаза реализация', 'Фаза заверешен', 'Фаза экплуатация'];
+
+            var labels = [];
+            var tempLabel = '';
+            //debugger;
+
+            for (var i = 0; i <= grades.length; i++) {
+                //from = grades[i];
+                //to = grades[i + 1];
+                grade = grades[i];
+                //var tem
+                switch (i) {
+                    case 0: //зеленый
+                        tempLabel = 'Фаза реализация';
+                        break;
+                    case 1: //желтый
+                        tempLabel = 'Фаза завершен';
+                        break;
+                    case 2: //синий
+                        tempLabel = 'Фаза эксплуатация';
+                        break;
+                    default:
+                        tempLabel = 'Нет'
+                }
+
+                labels.push(
+                    '<i style="background:' + getColor('productreadiness', (grade)) + '"></i>' + tempLabel //remove hardcode projecttype
+                    );
+            }
+
+            div.innerHTML = labels.join('<br>');
+            return div;
+        };
+
+        legend.addTo(map);
+
+        $('#dropDownId').change(function () {
+            var optionValue = this.value;
+            console.log('DropDownoptionvalue', optionValue);
+            $.ajax({
+                type: "POST",
+                url: "/map/getinitmodel",
+                data: {
+                    reporttype: 'productreadiness', //reportType hardcode here
+                    productid: optionValue
+                },
+                success: function (ajaxResponse) {
+                    if (ajaxResponse != null) {
+                        //3. add new geojsonlayer
+                       // geojson = mergeGeojsonFrom(initMapModel, ajaxResponse, reportType);
+                        console.log('ajaxResponse', ajaxResponse);
+                        map.removeLayer(geojsonLayer);
+                        //map = {};
+                        geojson = {}; //reset
+
+
+                        geojson = createGeojsonFrom(ajaxResponse.MapModels, reportType);
+                        geojsonLayer = L.geoJson(geojson, {
+
+                            style: style,
+                            coordsToLatLng: function (coords) {
+                                //latitude , longitude, altitude
+                                //return new L.LatLng(coords[1], coords[0], coords[2]); //Normal behavior
+                                return new L.LatLng(coords[0], coords[1]);
+                            },
+                            onEachFeature: onEachFeature
+                        });
+
+                        //console.log('ajaxgeojson', geojson);
+                        geojsonLayer.addTo(map);
+                    }
+                },
+                failure: function (response) {
+                    console.log(response.responseText);
+                },
+                error: function (response) {
+                    console.log(response.responseText);
+                }
+            });
+
+            //map.removeLayer(geojsonLayer);
+
+        });//end dropdown event
+
+        /*$('input[type=radio]').change(function () {
+
+            var reportType = this.value.toLowerCase();
+            console.log(reportType);
+            switch (reportType) {
+                case 'projectcount':
+                    console.log(reportType + ' отчет был выбран');
+                    map.removeLayer(geojsonLayer) // or
+                    $.ajax({
+                        type: "POST",
+                        url: "/map/GetProjectDataPost",
+                        data: { requestType: reportType },
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (ajaxResponse) {
+                            if (ajaxResponse != null) {
+                                //3. add new geojsonlayer
+                                geojson = mergeGeojsonFrom(initMapModel, ajaxResponse, reportType);
+                            }
+                        },
+                        failure: function (response) {
+                            console.log(response.responseText);
+                        },
+                        error: function (response) {
+                            console.log(response.responseText);
+                        }
+                    });
+                    break;
+                case 'productreadiness':
+                    console.log(reportType + ' отчет был выбран');
+                    //ajax load new map data
+                    break;
+                default:
+                    console.log(reportType + ' отчет был выбран');
+            }
+        });*/
+    }
+
+    function createGeojsonFrom(mapDataList, reportType) {
+
+        var geojson = {};
+        geojson['type'] = 'FeatureCollection';
+        geojson['features'] = [];
+
+        for (var i = 0; i < mapDataList.length; i++) {
+            var mapDataObject = mapDataList[i];
+            //console.log(geoDataObject);
+            var array = JSON.parse(mapDataObject.SubjectCoordinates);
+            var latLngArray = JSON.parse(mapDataObject.SubjectCoordinates);
+            var subjectCode = mapDataObject.SubjectCode;
+            var subjectName = mapDataObject.SubjectName;
+            var reportData = mapDataObject.ReportData;
+            var newFeature = {
+                "type": "Feature",
+                "properties": {
+                    "name": subjectName,
+                    "subjectcode": subjectCode,
+                    "reportdata": reportType === 'productreadiness' ? translateStatusCode(reportData) : reportData
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        latLngArray
+                    ]
+                }
+            }
+            geojson.features.push(newFeature);
+        }//end loop
+        console.log('initgeojson', geojson);
+        return geojson;
+    }
+
+    function translateStatusCode(statusCode) {
+        var str = '';
+        switch (statusCode) {
+            case 1:
+                str = 'Фаза реализация';
+                break;
+            case 100000000:
+                str = 'Фаза заверешен';
+                break;
+            case 100000001:
+                str = 'Фаза экплуатация';
+                break;
+            default:
+                str = 'Нет';
+                break;
+        }
+        return str;
+    }
+
+
+    function mergeGeojsonFrom(geoDataList, projectDataList, reportType) {
+
+        var geojson = {};
+        geojson['type'] = 'FeatureCollection';
+        geojson['features'] = [];
+
+        for (var i = 0; i < geoDataList.length; i++) {
+            var geoDataObject = geoDataList[i];
+            //console.log(geoDataObject);
+
+            var array = JSON.parse(geoDataObject.SubjectCoordinates);
+            var latLngArray = JSON.parse(geoDataObject.SubjectCoordinates);
+            var subjectCode = geoDataObject.SubjectCode;
+            var subjectName = geoDataObject.SubjectName;
+            //var projectCount = geoDataObject.ProjectCount;
+            //var projectData = getProjectObjBySubjectCode(projectDataList, geoDataObject.SubjectCode);
+            //console.log('projectData', projectData);
+            var reportData = geoDataObject.ReportData;
+
+            /*
+            if (reportType.toLowerCase() === 'projectcount') { //hardcoded here
+                try {
+                    reportData = setVarIfUndefined(typeof projectData.ProjectCount === "undefined" ? 0 : projectData.ProjectCount);
+                } catch (e) {
+                    reportData = 0;
+                }
+                //finalData = setVarIfUndefined(projectData.ProjectCount);
+            }
+            if (reportType.toLowerCase() === 'productreadiness') {
+                try {
+                    var temp = setVarIfUndefined((typeof projectData.ProductReadiness === "undefined") ? 0 : projectData.ProductReadiness);
+                    reportData = translateStatusCode(temp);
+
+                } catch (e) {
+                    reportData = 0
+                }
+            }*/
+                var newFeature = {
+                    "type": "Feature",
+                    "properties": {
+                        "name": subjectName,
+                        "subjectcode": subjectCode,
+                        //"projects": setVarIfUndefined(projectCount)
+                        //"projects": setVarIfUndefined()
+                        "reportdata": reportType === 'productreadiness' ? translateStatusCode(reportData) : reportData
+
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            latLngArray
+                        ]
+                    }
+            }
+            geojson.features.push(newFeature);
+        }//end loop
+        return geojson;
+    }
+
+    function foo() {
+        console.log('foo');
+    }
+
+    function createDropDownFrom(productCat) {
+        //var empty = '<option disabled selected value> -- select an option -- </option>';
+        var dropDownContent = '<select id="dropDownId"><option disabled selected value> -- выбирите продукт -- </option>';
+        //dropDownContent.concat(empty);
+        //var str = '<select>';
+        for (var i = 0; i < productCat.length; i++) {
+            var productObj = productCat[i];
+            dropDownContent += '<option value=' + productObj.ProductId + ' >' + productObj.ProductName + '</option>';
+        }
+        return dropDownContent += '</select>';
+    }
+
+    function createReportTypeRadioBtns() {
+        var radiobtngrp =
+            '<form>' +
+            '<p>Выбор типа отчета:</p >' +
+            '<div>'+
+            '<input type="radio" id ="reportProjectCount" name="reportTypeGrp" value="projectCount"> ' +
+            '<label for="reportProjectCount">Количество проектов</label>' +
+            '<input type="radio" id ="reportProductReadiness" name="reportTypeGrp" value="productReadiness"> ' +
+            '<label for="reportProductReadiness">Готовность продуктов</label>' +
+            '<input type="radio" id="contactChoice3" name="reportTypeGrp" value="отчет3">' +
+            '<label for="reportChoice">Отчет №3</label>' +
+            '</div>' +
+            //'<button type="submit">Отправить</button>' +
+            '</form>';
+        return radiobtngrp;
+    }
+
+    function setVarIfUndefined(value) {
+
+        return (typeof value === 'undefined') ? 0 : value;
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+
+        function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+
+            //info.update(layer.feature.properties);
+            info.update(layer.feature.properties);
+            //console.log(layer.feature.properties);
+
+        }
+
+        function resetHighlight(e) {
+            geojsonLayer.resetStyle(e.target);
+            info.update();
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+    }
+    function style(feature) {
+        //var filllColorr = getColor(reportType, feature.properties.reportdata);
+        //console.log('filllColorr', filllColorr);
+        return {
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7,
+            fillColor: getColor(reportType,feature.properties.reportdata) //diff reportData based on reportType
+        };
+    }
+
+    function getColor(reportType, reportData) {
+
+        var color = '';
+        //switch case here based on reportType
+        switch (reportType.toLowerCase()) {
+            case 'projectcount':
+                color = getColorForProjectCount(reportData);
+                break;
+            case 'productreadiness':
+                color = getColorForProductReadiness(reportData);
+                break;
+            default:
+        }
+        return color;
+
+        function getColorForProductReadiness(status) {
+            //debugger;
+            console.log(status);
+            //if (status=== 1) {
+            if (status === 'Фаза реализация') {
+                return '#2EFE2E';//green
+            }
+            //if (status === 100000000) {
+            if (status === 'Фаза заверешен') {
+                return '#FFFF00';//yellow
+            }
+            //if (status === 100000001 ) {
+            if (status === 'Фаза экплуатация') {
+                return '#0000FF'; //blue
+            }
+            else {
+                return '#A4A4A4';
+            }
+        }
+
+        function getColorForProjectCount(projectCount) {
+            if (projectCount > 10) {
+                return '#FC4E2A';
+            }
+            if (projectCount > 5 && projectCount <= 10) {
+                return '#FD8D3C';
+            }
+            if (projectCount > 0 && projectCount <= 5) {
+                return '#FEB24C';
+            }
+            else {
+                return '#FFEDA0';
+            }
+        }
+    }
+
+    function getProjectObjBySubjectCode(projectArr, code) {
+
+        if (code ===4) {
+           // return;
+        }
+
+        for (var i = 0, iLen = projectArr.length; i < iLen; i++) {
+
+            if (projectArr[i].SubjectCode == code) return projectArr[i];
+        }
+    }
+
+
+    $(document).ajaxComplete(function myfunction() {
+        console.log('ajaxcomplete fired');
+    })
+
+
+
+    //$(document).ready(function () {
+        //$('input[type=radio][name=reportTypeGrp]').change(function () {
+
+
+    //});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+

@@ -1,0 +1,298 @@
+﻿@model IEnumerable<Xdsoft.RTK.ExtCrmWeb.Models.Map.MapModel>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
+@*<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>*@
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet-src.js" integrity="sha512-+ZaXMZ7sjFMiCigvm8WjllFy6g3aou3+GZngAtugLzrmPFKFK7yjSri0XnElvCTu/PrifAYQuxZTybAEkA8VOA==" crossorigin=""></script>
+<style>
+
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    #iframemock {
+        /*width: 1500px;
+        height: 800px;*/
+        width: 1850px;
+        height: 720px;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+        border: 5px;
+        border-color: blue
+    }
+
+    .legend {
+        line-height: 18px;
+        color: #555;
+    }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+</style>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectCoordinates)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectCoordinates)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<div id="map">
+
+</div>
+
+<script>
+     var json = @Html.Raw(Json.Encode(Model));
+    //console.log("Json.Encode -> Model", json);
+
+    var geojson = {};
+    geojson['type'] = 'FeatureCollection';
+    geojson['features'] = [];
+
+    for (var i = 0; i < json.length; i++) {
+        var obj = json[i];
+        //console.log(obj)
+        var latLngArray = obj.SubjectPoints.map(function (point) {
+            return [point.X, point.Y];
+        });
+        var subjectCode = obj.SubjectCode;
+        var subjectName = obj.SubjectName;
+        var subjectCodeMock = getRndInteger(1,85)
+
+        var newFeature = {
+            "type": "Feature",
+            "properties": {
+                "name": subjectName,
+                "subjectcode": subjectCode,
+                "projects": setVarIfUndefined(subjectCodeMock)
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    latLngArray
+                ]
+            }
+        }
+        geojson.features.push(newFeature);
+        //console.log(obj.SubjectName, latLngArray);
+    }//end loop
+
+    //var bounds = new L.LatLngBounds(new L.LatLng(62.5, 108.0), new L.LatLng(62.5, 108.0));
+    var map = L.map('map', {
+        //center: [66.0, 99.0],
+        //center: [62.5, 112.0],
+        center: [62.5, 108.0],
+        zoom: 3,
+        //minZoom: 3.8,
+        minZoom: 1,
+        maxZoom: 6,
+        zoomDelta: 0.25,
+        zoomSnap: 0,
+        //zoomSnap: 1,
+        wheelPxPerZoomLevel: 100,
+        //maxBounds: bounds,
+        //todo add bouncing option here or in tilelayer
+        maxBoundsViscosity: 1.0
+
+    })
+
+    L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+            //maxZoom: 5,
+            //minZoom: 3
+
+        }).addTo(map);
+
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+
+    info.update = function (props) {
+        this._div.innerHTML = '<h4>Количество проектов у РФ</h4>' + (props ?
+            '<b>' + props.name + '</b><br /><p> количество проектов: ' + props.projects + '</p>' :
+            'Наведите на субъект');
+    };
+
+    info.addTo(map);
+
+    var geojson = L.geoJson(geojson, {
+
+        style: style,
+        coordsToLatLng: function (coords) {
+            //latitude , longitude, altitude
+            return new L.LatLng(coords[1], coords[0], coords[2]); //Normal behavior
+            //return new L.LatLng(coords[0], coords[1]);
+        },
+        onEachFeature: onEachFeature
+    });
+
+    geojson.eachLayer(function (layer) {
+        layer.bindPopup(layer.feature.properties.name);
+    });
+
+    geojson.addTo(map)
+
+    var legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [0, 5, 10],
+            labels = [],
+            from, to;
+
+        for (var i = 0; i < grades.length; i++) {
+            from = grades[i];
+            to = grades[i + 1];
+
+            labels.push(
+                '<i style="background:' + getColor(from + 1) + '"></i> ' +
+                from + (to ? '&ndash;' + to : '+'));
+        }
+
+        div.innerHTML = labels.join('<br>');
+        return div;
+    };
+
+    legend.addTo(map);
+
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+
+        function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+
+            info.update(layer.feature.properties);
+        }
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            info.update();
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+    }
+
+    function style(feature) {
+        return {
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7,
+            fillColor: getColor(feature.properties.projects) //ProjectCount
+        };
+    }
+
+    function setVarIfUndefined(value) {
+
+        return (typeof value === 'undefined') ? 0 : value;
+    }
+
+    function getProjectCount(geoJsonSubjectCode) {
+        //iter tru array. If subjectRf equals arg return projectCount
+        //console.log('geoJsonSubjectCode', geoJsonSubjectCode);
+
+        for (var i = 0; i < mapModels.length; i++) {
+            var mapModel = mapModels[i];
+
+            if (mapModel.SubjectCode === geoJsonSubjectCode) { //SubjectRF
+                console.log('!intersection in getProjectCount() for geoJsonSubjectCode: ' + geoJsonSubjectCode + ' mapModel.ProjectCount= ' + mapModel.ProjectCount)
+                return mapModel.ProjectCount
+            }
+        }
+
+    }
+
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getColor(projectCount) {
+
+        if (projectCount > 10) {
+            return '#FC4E2A';
+        }
+        if (projectCount > 5 && projectCount <= 10) {
+            return '#FD8D3C';
+        }
+        if (projectCount > 0 && projectCount <= 5) {
+            return '#FEB24C';
+        }
+        else {
+            return '#FFEDA0';
+        }
+    }
+
+
+</script>

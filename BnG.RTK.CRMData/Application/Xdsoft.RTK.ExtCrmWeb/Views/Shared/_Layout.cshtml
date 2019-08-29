@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Spreadsheet }
+    )
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.Spreadsheet }
+    )
+    @System.Web.Optimization.Scripts.Render("~/Scripts/CrossFrameMessageProcessor.js")
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    @RenderSection("Styles", false)
+
+</head>
+
+<body>
+    @*<div class="content-wrapper">*@
+        @RenderBody()
+    @*</div>*@
+</body>
+</html>

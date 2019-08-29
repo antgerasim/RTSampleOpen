@@ -1,0 +1,19 @@
+﻿@using Xdsoft.RTK.ExtCrmWeb.Models.SpreadSheet;
+@model SpreadSheetModel
+@using (Html.BeginForm())
+{
+    @Html.Partial("SpreadSheetPartial", Model);
+}
+<script type="text/javascript">
+    Xdsoft.CrossFrameMessageProcessor.AddMessageListener();
+    Xdsoft.CrossFrameMessageProcessor.AddMessageHandler("SpreadSheetSaveChanges", function (mainEntityId) { SpreadSheetEditorFunctions.SaveChanges(mainEntityId) });
+    Xdsoft.CrossFrameMessageProcessor.AddMessageHandler("SpreadSheetMakeReadOnly", function () { SpreadSheetEditorFunctions.MakeReadOnly() });
+    SpreadSheetEditorFunctions = {
+        SaveChanges: function (mainEntityId) {
+            SpreadSheetEditor.PerformCallback({ entityId: mainEntityId });
+        },
+        MakeReadOnly: function () {
+            SpreadSheetEditor.readOnly = true;
+        }
+    }
+</script>

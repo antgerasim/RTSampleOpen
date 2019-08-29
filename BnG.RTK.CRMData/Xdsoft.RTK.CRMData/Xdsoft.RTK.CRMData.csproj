@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{166F2481-C3EF-4039-9F1A-9FC17B086EA7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xdsoft.RTK.CRMData</RootNamespace>
+    <AssemblyName>Xdsoft.RTK.CRMData</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Xdsoft.RTK.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xrm.Sdk">
+      <HintPath>..\Lib\Microsoft.Xrm.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CrmServiceContext.cs" />
+    <Compile Include="Entities\ActivityMimeAttachment.cs" />
+    <Compile Include="Entities\Annotation.cs" />
+    <Compile Include="Entities\BusinessUnit.cs" />
+    <Compile Include="Entities\Email.cs" />
+    <Compile Include="Entities\new_contract_plan.cs" />
+    <Compile Include="Entities\new_contract_plan_acception.cs" />
+    <Compile Include="Entities\new_contract_plan_adjustment_cc.cs" />
+    <Compile Include="Entities\new_contract_plan_product.cs" />
+    <Compile Include="Entities\new_d_product_catalog.cs" />
+    <Compile Include="Entities\new_project_initiative_valuation.cs" />
+    <Compile Include="Entities\new_Route.cs" />
+    <Compile Include="Entities\new_setting.cs" />
+    <Compile Include="Entities\new_Step.cs" />
+    <Compile Include="Entities\new_territory.cs" />
+    <Compile Include="Entities\new_Transfer.cs" />
+    <Compile Include="Entities\new_t_activity.cs" />
+    <Compile Include="Entities\Workflow.cs" />
+    <Compile Include="OptionSets\BusinessUnit_Address1_AddressTypeCode.cs" />
+    <Compile Include="OptionSets\BusinessUnit_Address1_ShippingMethodCode.cs" />
+    <Compile Include="OptionSets\BusinessUnit_Address2_AddressTypeCode.cs" />
+    <Compile Include="OptionSets\BusinessUnit_Address2_ShippingMethodCode.cs" />
+    <Compile Include="OptionSets\Email_CorrelationMethod.cs" />
+    <Compile Include="OptionSets\Email_EmailReminderStatus.cs" />
+    <Compile Include="OptionSets\Email_EmailReminderType.cs" />
+    <Compile Include="OptionSets\Email_Notifications.cs" />
+    <Compile Include="OptionSets\Email_PriorityCode.cs" />
+    <Compile Include="OptionSets\Email_StatusCode.cs" />
+    <Compile Include="OptionSets\new_contract_plan_acception_StatusCode.cs" />
+    <Compile Include="OptionSets\new_contract_plan_adjustment_cc_StatusCode.cs" />
+    <Compile Include="OptionSets\new_contract_plan_product_StatusCode.cs" />
+    <Compile Include="OptionSets\new_contract_plan_StatusCode.cs" />
+    <Compile Include="OptionSets\new_d_product_catalog_StatusCode.cs" />
+    <Compile Include="OptionSets\new_msg_type.cs" />
+    <Compile Include="OptionSets\new_negotiationoptionslist.cs" />
+    <Compile Include="OptionSets\new_project_initiative_valuation_StatusCode.cs" />
+    <Compile Include="OptionSets\new_quarter.cs" />
+    <Compile Include="OptionSets\new_Route_StatusCode.cs" />
+    <Compile Include="OptionSets\new_service_type.cs" />
+    <Compile Include="OptionSets\new_setting_StatusCode.cs" />
+    <Compile Include="OptionSets\new_Step_StatusCode.cs" />
+    <Compile Include="OptionSets\new_territory_StatusCode.cs" />
+    <Compile Include="OptionSets\new_Transfer_StatusCode.cs" />
+    <Compile Include="OptionSets\new_t_activity_StatusCode.cs" />
+    <Compile Include="OptionSets\Workflow_BusinessProcessType.cs" />
+    <Compile Include="OptionSets\Workflow_Category.cs" />
+    <Compile Include="OptionSets\Workflow_Mode.cs" />
+    <Compile Include="OptionSets\Workflow_RunAs.cs" />
+    <Compile Include="OptionSets\Workflow_Scope.cs" />
+    <Compile Include="OptionSets\Workflow_Stage.cs" />
+    <Compile Include="OptionSets\Workflow_StatusCode.cs" />
+    <Compile Include="OptionSets\Workflow_Type.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Xdsoft.RTK.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,139 @@
+﻿html,
+body {
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    border: 5px;
+    border-color: blue;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+
+.dor-bg-grey {
+    background: #ccc;
+    /*background: grey;*/
+}
+
+.dor-bg-green {
+    background: LightGreen;
+}
+
+.dor-bg-yellow {
+    background: #fff599;
+}
+
+.dor-bg-orange {
+    background: LightSalmon;
+}
+
+.dor-bg-red {
+    background: #ff4747;
+}
+
+.report-switcher {
+    padding-top: 50%;
+    padding-left: 50%;
+}
+
+table.tableizer-table {
+    border: 1px solid #ccc;
+    font-family: Times New Roman, Times, serif;
+    font-size: 13px;
+    font-weight: bolder;
+    width: 100%;
+}
+
+.dor-horizontalTableHeader {
+    text-align: center;
+    background: #ccc;
+    font-size: 14px;
+}
+
+.dor-verticalTableHeader {
+    text-align: center;
+    background: #ccc;
+    font-size: 14px;
+}
+
+.dor-probabilityDescr {
+    font-size: 13px;
+    /*     color: blue; */
+}
+
+.dor-impactDescr {
+    font-size: 13px;
+    /*     color: red; */
+}
+
+.tableizer-table td {
+    padding: 4px;
+    margin: 3px;
+    /*  border: 1px solid #ccc; */
+}
+
+.tableizer-table th {
+    background-color: #104e8b;
+    color: #fff;
+    font-weight: bold;
+}
+
+#prob1imp1 {
+    background: LightGreen;
+    border: 1px solid #ccc;
+}
+
+#prob1imp2 {
+    background: LightGreen;
+    border: 1px solid #ccc;
+}
+
+#prob1imp3 {
+    background: #fff599;
+    border: 1px solid #ccc;
+}
+
+#prob2imp1 {
+    background: LightGreen;
+    border: 1px solid #ccc;
+}
+
+#prob2imp2 {
+    background: #fff599;
+    border: 1px solid #ccc;
+}
+
+#prob2imp3 {
+    background: LightSalmon;
+    border: 1px solid #ccc;
+}
+
+#prob3imp1 {
+    background: #fff599;
+    border: 1px solid #ccc;
+}
+
+#prob3imp2 {
+    background: LightSalmon;
+    border: 1px solid #ccc;
+}
+
+#prob3imp3 {
+    background: #ff4747;
+    border: 1px solid #ccc;
+}

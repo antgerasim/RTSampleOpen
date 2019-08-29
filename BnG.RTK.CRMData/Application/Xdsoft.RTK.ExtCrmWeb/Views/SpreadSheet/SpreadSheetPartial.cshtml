@@ -1,0 +1,21 @@
+﻿@using Xdsoft.RTK.ExtCrmWeb.Models.SpreadSheet;
+@model SpreadSheetModel
+@{
+    var spreadSheet = Html.DevExpress().Spreadsheet(settings =>
+    {
+        settings.Name = "SpreadSheetEditor";
+        settings.CallbackRouteValues = new { Controller = "SpreadSheet", Action = "SpreadSheetPartial" };
+        settings.CustomActionRouteValues = new { Controller = "SpreadSheet", Action = "Custom" };
+        settings.Width = Unit.Percentage(100);
+        settings.Height = Unit.Pixel(600);
+        settings.FullscreenMode = true;
+        settings.RibbonMode = SpreadsheetRibbonMode.OneLineRibbon;
+        settings.WorkDirectory = @"~/Files";
+        settings.ReadOnly = Model != null && Model.IsReadOnly;
+    });
+    if (Model != null && Model.Body != null)
+    {
+        spreadSheet.Open(Guid.NewGuid().ToString(), DevExpress.Spreadsheet.DocumentFormat.Xlsx, () => { return Model.Body; });
+    }
+    spreadSheet.GetHtml();
+}

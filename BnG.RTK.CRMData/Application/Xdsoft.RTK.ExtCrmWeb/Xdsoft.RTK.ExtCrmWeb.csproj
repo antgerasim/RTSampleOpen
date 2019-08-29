@@ -1,0 +1,984 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CB631076-D93D-4430-BD44-D543E50D7DBE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xdsoft.RTK.ExtCrmWeb</RootNamespace>
+    <AssemblyName>Xdsoft.RTK.ExtCrmWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <WebGreaseLibPath>..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Charts.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Dashboard.v17.2.Web.Mvc5, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Dashboard.v17.2.Web.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Data.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Office.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Printing.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.RichEdit.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v17.2.Export, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.RichEdit.v17.2.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Spreadsheet.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Spreadsheet.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Utils.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxRichEdit.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Web.ASPxRichEdit.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxSpreadsheet.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Web.ASPxSpreadsheet.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxThemes.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Web.ASPxThemes.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.Mvc5.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Web.Mvc5.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\DevExpress.Web.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoAPI, Version=1.7.5.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\GeoAPI.Core.1.7.5\lib\net45\GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoAPI.CoordinateSystems, Version=1.7.5.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\GeoAPI.CoordinateSystems.1.7.5\lib\net45\GeoAPI.CoordinateSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoJSON, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\GeoJSON.1.2.1\lib\net45\GeoJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy">
+      <HintPath>..\..\Bin\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk">
+      <HintPath>..\..\Lib\Microsoft.Xrm.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite, Version=1.15.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetTopologySuite.Core.1.15.0\lib\net45\NetTopologySuite.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite.Features, Version=1.15.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetTopologySuite.Features.1.15.0\lib\net45\NetTopologySuite.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO.GeoJSON, Version=1.15.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetTopologySuite.IO.GeoJSON.1.15.0\lib\net45\NetTopologySuite.IO.GeoJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.Data.3.2.3\lib\net45\WebMatrix.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dor\font-awesome.min.css" />
+    <Content Include="Content\dor\leaflet.css" />
+    <Content Include="Content\dor\reports.css" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\ace.js" />
+    <Content Include="Scripts\additional-methods.js" />
+    <Content Include="Scripts\additional-methods.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\cldr.event.js" />
+    <Content Include="Scripts\cldr.js" />
+    <Content Include="Scripts\cldr.supplemental.js" />
+    <Content Include="Scripts\cldr.unresolved.js" />
+    <Content Include="Scripts\cldr\event.js" />
+    <Content Include="Scripts\cldr\supplemental.js" />
+    <Content Include="Scripts\cldr\unresolved.js" />
+    <Content Include="Scripts\CrossFrameMessageProcessor.js" />
+    <Content Include="Scripts\dor\bootstrap.min.js" />
+    <Content Include="Scripts\dor\leaflet-src.js" />
+    <Content Include="Scripts\dx.all.js" />
+    <Content Include="Scripts\ext-language_tools.js" />
+    <Content Include="Scripts\globalize.currency.js" />
+    <Content Include="Scripts\globalize.date.js" />
+    <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\globalize.message.js" />
+    <Content Include="Scripts\globalize.number.js" />
+    <Content Include="Scripts\globalize\currency.js" />
+    <Content Include="Scripts\globalize\currency.min.js" />
+    <Content Include="Scripts\globalize\date.js" />
+    <Content Include="Scripts\globalize\date.min.js" />
+    <Content Include="Scripts\globalize\message.js" />
+    <Content Include="Scripts\globalize\message.min.js" />
+    <Content Include="Scripts\globalize\number.js" />
+    <Content Include="Scripts\globalize\number.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <None Include="FolderProfile.pubxml" />
+    <Content Include="JsonData\russian-regions-code.json" />
+    <Content Include="JsonData\russian-regions.json" />
+    <Content Include="JsonData\admin_level_4.geojson" />
+    <Content Include="JsonData\russian-regions-eval.json" />
+    <Content Include="FolderSectionDesigner.csd">
+      <Generator>CsdFileGenerator</Generator>
+      <LastGenOutput>FolderSectionDesigner.csd.cs</LastGenOutput>
+    </Content>
+    <Content Include="FolderSectionDesigner.csd.config">
+      <DependentUpon>FolderSectionDesigner.csd</DependentUpon>
+    </Content>
+    <Content Include="FolderSectionDesigner.csd.diagram">
+      <DependentUpon>FolderSectionDesigner.csd</DependentUpon>
+    </Content>
+    <None Include="FolderSectionDesigner.csd.xsd">
+      <DependentUpon>FolderSectionDesigner.csd</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Scripts\aspnet\dx.aspnet.data.js" />
+    <Content Include="Scripts\aspnet\dx.aspnet.mvc.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\dor\moment.js" />
+    <Content Include="Views\SpreadSheet\Index.cshtml" />
+    <Content Include="Views\SpreadSheet\SpreadSheetPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\jquery.min.map" />
+    <Content Include="Views\Home\_FileManagerPartial.cshtml" />
+    <Content Include="Views\Home\IdNotFound.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Grid\_BatchEditingPartial.cshtml" />
+    <Content Include="Views\Grid\Index.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Map\Choropleth.cshtml" />
+    <Content Include="Views\Map\MapPanes.cshtml" />
+    <Content Include="Views\Map\GeoJsonBasic.cshtml" />
+    <Content Include="Views\Map\Alpha.cshtml" />
+    <Content Include="Views\Map\Alpha2.cshtml" />
+    <Content Include="Views\Map\MaxBounds.cshtml" />
+    <Content Include="Views\Map\Alpha3.cshtml" />
+    <Content Include="Views\Map\Alpha4.cshtml" />
+    <Content Include="Views\Map\Beta.cshtml" />
+    <Content Include="Views\Map\LayersControl.cshtml" />
+    <Content Include="Views\Map\DropDown.cshtml" />
+    <Content Include="Views\Map\DropDownOld.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DevExtremeBundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Configuration\FolderSection.cs" />
+    <Compile Include="Controllers\GridController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\SpreadSheetController.cs" />
+    <Compile Include="Data\AccountBase.cs" />
+    <Compile Include="Data\AccountLeads.cs" />
+    <Compile Include="Data\ActionCardBase.cs" />
+    <Compile Include="Data\ActionCardUserSettingsBase.cs" />
+    <Compile Include="Data\ActionCardUserStateBase.cs" />
+    <Compile Include="Data\ActivityMimeAttachment.cs" />
+    <Compile Include="Data\ActivityPartyBase.cs" />
+    <Compile Include="Data\ActivityPointerBase.cs" />
+    <Compile Include="Data\AdvancedSimilarityRuleBase.cs" />
+    <Compile Include="Data\AdvancedSimilarityRuleBaseIds.cs" />
+    <Compile Include="Data\AnnotationBase.cs" />
+    <Compile Include="Data\ApplicationFileBase.cs" />
+    <Compile Include="Data\AppModuleBase.cs" />
+    <Compile Include="Data\AppModuleBaseIds.cs" />
+    <Compile Include="Data\AppModuleComponentBase.cs" />
+    <Compile Include="Data\AppModuleRolesBase.cs" />
+    <Compile Include="Data\AppointmentBase.cs" />
+    <Compile Include="Data\AsyncOperationBase.cs" />
+    <Compile Include="Data\Attachment.cs" />
+    <Compile Include="Data\AttributeIds.cs" />
+    <Compile Include="Data\AttributeMapBase.cs" />
+    <Compile Include="Data\AuditBase.cs" />
+    <Compile Include="Data\AuthorizationServerBase.cs" />
+    <Compile Include="Data\AzureServiceConnectionBase.cs" />
+    <Compile Include="Data\bng_SchedulerSessionBase.cs" />
+    <Compile Include="Data\bng_ShedulerTaskBase.cs" />
+    <Compile Include="Data\BookableResourceBase.cs" />
+    <Compile Include="Data\BookableResourceBookingBase.cs" />
+    <Compile Include="Data\BookableResourceBookingExchangeSyncIdMappingBase.cs" />
+    <Compile Include="Data\BookableResourceBookingHeaderBase.cs" />
+    <Compile Include="Data\BookableResourceCategoryAssnBase.cs" />
+    <Compile Include="Data\BookableResourceCategoryBase.cs" />
+    <Compile Include="Data\BookableResourceCharacteristicBase.cs" />
+    <Compile Include="Data\BookableResourceGroupBase.cs" />
+    <Compile Include="Data\BookingStatusBase.cs" />
+    <Compile Include="Data\BuildVersion.cs" />
+    <Compile Include="Data\BulkDeleteFailureBase.cs" />
+    <Compile Include="Data\BulkDeleteOperationBase.cs" />
+    <Compile Include="Data\BulkOperationLogBase.cs" />
+    <Compile Include="Data\BusinessDataLocalizedLabelBase.cs" />
+    <Compile Include="Data\BusinessProcessFlowInstanceBase.cs" />
+    <Compile Include="Data\BusinessUnitBase.cs" />
+    <Compile Include="Data\BusinessUnitMap.cs" />
+    <Compile Include="Data\BusinessUnitNewsArticleBase.cs" />
+    <Compile Include="Data\CalendarBase.cs" />
+    <Compile Include="Data\CalendarRuleBase.cs" />
+    <Compile Include="Data\CampaignActivityBase.cs" />
+    <Compile Include="Data\CampaignActivityItemBase.cs" />
+    <Compile Include="Data\CampaignBase.cs" />
+    <Compile Include="Data\CampaignItemBase.cs" />
+    <Compile Include="Data\CampaignResponseBase.cs" />
+    <Compile Include="Data\CardTypeBase.cs" />
+    <Compile Include="Data\CascadeDeleteEntitiesSelfReferencing.cs" />
+    <Compile Include="Data\CascadeDeleteEntitiesTopologicalOrder.cs" />
+    <Compile Include="Data\CascadeOperation.cs" />
+    <Compile Include="Data\CategoryBase.cs" />
+    <Compile Include="Data\ChannelAccessProfileBase.cs" />
+    <Compile Include="Data\ChannelAccessProfileBaseIds.cs" />
+    <Compile Include="Data\ChannelAccessProfileEntityAccessLevelBase.cs" />
+    <Compile Include="Data\ChannelAccessProfileRuleBase.cs" />
+    <Compile Include="Data\ChannelAccessProfileRuleBaseIds.cs" />
+    <Compile Include="Data\ChannelAccessProfileRuleItemBase.cs" />
+    <Compile Include="Data\ChannelAccessProfileRuleItemBaseIds.cs" />
+    <Compile Include="Data\ChannelPropertyBase.cs" />
+    <Compile Include="Data\ChannelPropertyGroupBase.cs" />
+    <Compile Include="Data\CharacteristicBase.cs" />
+    <Compile Include="Data\ClientUpdate.cs" />
+    <Compile Include="Data\ColumnMappingBase.cs" />
+    <Compile Include="Data\CompetitorAddressBase.cs" />
+    <Compile Include="Data\CompetitorBase.cs" />
+    <Compile Include="Data\CompetitorProduct.cs" />
+    <Compile Include="Data\CompetitorSalesLiterature.cs" />
+    <Compile Include="Data\ComplexControlBase.cs" />
+    <Compile Include="Data\ConnectionBase.cs" />
+    <Compile Include="Data\ConnectionRoleAssociation.cs" />
+    <Compile Include="Data\ConnectionRoleBase.cs" />
+    <Compile Include="Data\ConnectionRoleBaseIds.cs" />
+    <Compile Include="Data\ConnectionRoleObjectTypeCodeBase.cs" />
+    <Compile Include="Data\ConstraintBasedGroupBase.cs" />
+    <Compile Include="Data\ContactBase.cs" />
+    <Compile Include="Data\ContactInvoices.cs" />
+    <Compile Include="Data\ContactLeads.cs" />
+    <Compile Include="Data\ContactOrders.cs" />
+    <Compile Include="Data\ContactQuotes.cs" />
+    <Compile Include="Data\ContractBase.cs" />
+    <Compile Include="Data\ContractDetailBase.cs" />
+    <Compile Include="Data\ContractTemplateBase.cs" />
+    <Compile Include="Data\ContractTemplateBaseIds.cs" />
+    <Compile Include="Data\ConvertRuleBase.cs" />
+    <Compile Include="Data\ConvertRuleBaseIds.cs" />
+    <Compile Include="Data\ConvertRuleItemBase.cs" />
+    <Compile Include="Data\ConvertRuleItemBaseIds.cs" />
+    <Compile Include="Data\CustomControlBase.cs" />
+    <Compile Include="Data\CustomControlDefaultConfigBase.cs" />
+    <Compile Include="Data\CustomControlResourceBase.cs" />
+    <Compile Include="Data\CustomerAddressBase.cs" />
+    <Compile Include="Data\CustomerOpportunityRoleBase.cs" />
+    <Compile Include="Data\CustomerRelationshipBase.cs" />
+    <Compile Include="Data\DataPerformance.cs" />
+    <Compile Include="Data\DateTimeConversionTracker.cs" />
+    <Compile Include="Data\DelveActionHubBase.cs" />
+    <Compile Include="Data\DependencyBase.cs" />
+    <Compile Include="Data\DependencyFeatureBase.cs" />
+    <Compile Include="Data\DependencyNodeBase.cs" />
+    <Compile Include="Data\DiscountBase.cs" />
+    <Compile Include="Data\DiscountTypeBase.cs" />
+    <Compile Include="Data\DisplayStringBase.cs" />
+    <Compile Include="Data\DisplayStringMapBase.cs" />
+    <Compile Include="Data\DocumentIndex.cs" />
+    <Compile Include="Data\DocumentTemplateBase.cs" />
+    <Compile Include="Data\DuplicateRecordBase.cs" />
+    <Compile Include="Data\DuplicateRuleBase.cs" />
+    <Compile Include="Data\DuplicateRuleConditionBase.cs" />
+    <Compile Include="Data\DynamicPropertyAssociationBase.cs" />
+    <Compile Include="Data\DynamicPropertyBase.cs" />
+    <Compile Include="Data\DynamicPropertyInstanceBase.cs" />
+    <Compile Include="Data\DynamicPropertyOptionSetItemBase.cs" />
+    <Compile Include="Data\EmailBase.cs" />
+    <Compile Include="Data\EmailHashBase.cs" />
+    <Compile Include="Data\EmailSearchBase.cs" />
+    <Compile Include="Data\EmailServerProfileBase.cs" />
+    <Compile Include="Data\EmailSignatureBase.cs" />
+    <Compile Include="Data\EmailSignatureBaseIds.cs" />
+    <Compile Include="Data\EntitlementBase.cs" />
+    <Compile Include="Data\EntitlementChannelBase.cs" />
+    <Compile Include="Data\EntitlementContacts.cs" />
+    <Compile Include="Data\EntitlementProducts.cs" />
+    <Compile Include="Data\EntitlementTemplateBase.cs" />
+    <Compile Include="Data\EntitlementTemplateChannelBase.cs" />
+    <Compile Include="Data\EntitlementTemplateProducts.cs" />
+    <Compile Include="Data\EntityIds.cs" />
+    <Compile Include="Data\EntityKeyIds.cs" />
+    <Compile Include="Data\EntityMapBase.cs" />
+    <Compile Include="Data\EntityRelationshipIds.cs" />
+    <Compile Include="Data\EquipmentBase.cs" />
+    <Compile Include="Data\ExchangeSyncIdMappingBase.cs" />
+    <Compile Include="Data\ExpiredProcessBase.cs" />
+    <Compile Include="Data\ExternalPartyBase.cs" />
+    <Compile Include="Data\ExternalPartyItemBase.cs" />
+    <Compile Include="Data\FaxBase.cs" />
+    <Compile Include="Data\FeedbackBase.cs" />
+    <Compile Include="Data\FieldPermissionBase.cs" />
+    <Compile Include="Data\FieldSecurityProfileBase.cs" />
+    <Compile Include="Data\FilterTemplate.cs" />
+    <Compile Include="Data\GoalBase.cs" />
+    <Compile Include="Data\GoalRollupQueryBase.cs" />
+    <Compile Include="Data\HierarchyRuleBase.cs" />
+    <Compile Include="Data\HierarchySecurityConfiguration.cs" />
+    <Compile Include="Data\ImageDescriptor.cs" />
+    <Compile Include="Data\ImportBase.cs" />
+    <Compile Include="Data\ImportDataBase.cs" />
+    <Compile Include="Data\ImportEntityMappingBase.cs" />
+    <Compile Include="Data\ImportFileBase.cs" />
+    <Compile Include="Data\ImportJobBase.cs" />
+    <Compile Include="Data\ImportLogBase.cs" />
+    <Compile Include="Data\ImportMapBase.cs" />
+    <Compile Include="Data\IncidentBase.cs" />
+    <Compile Include="Data\IncidentKnowledgeBaseRecord.cs" />
+    <Compile Include="Data\IntegrationStatusBase.cs" />
+    <Compile Include="Data\InteractionForEmailBase.cs" />
+    <Compile Include="Data\InternalAddressBase.cs" />
+    <Compile Include="Data\InterProcessLockBase.cs" />
+    <Compile Include="Data\InvalidDependencyBase.cs" />
+    <Compile Include="Data\InvoiceBase.cs" />
+    <Compile Include="Data\InvoiceDetailBase.cs" />
+    <Compile Include="Data\IsvConfigBase.cs" />
+    <Compile Include="Data\KbArticleBase.cs" />
+    <Compile Include="Data\KbArticleCommentBase.cs" />
+    <Compile Include="Data\KbArticleTemplateBase.cs" />
+    <Compile Include="Data\KbArticleTemplateBaseIds.cs" />
+    <Compile Include="Data\KnowledgeArticleBase.cs" />
+    <Compile Include="Data\KnowledgeArticleIncidentBase.cs" />
+    <Compile Include="Data\KnowledgeArticlesCategories.cs" />
+    <Compile Include="Data\KnowledgeArticleViewsBase.cs" />
+    <Compile Include="Data\KnowledgeBaseRecordBase.cs" />
+    <Compile Include="Data\KnowledgeSearchModelBase.cs" />
+    <Compile Include="Data\KnowledgeSearchModelBaseIds.cs" />
+    <Compile Include="Data\LanguageLocale.cs" />
+    <Compile Include="Data\LeadAddressBase.cs" />
+    <Compile Include="Data\LeadBase.cs" />
+    <Compile Include="Data\LeadCompetitors.cs" />
+    <Compile Include="Data\LeadProduct.cs" />
+    <Compile Include="Data\LeadToOpportunitySalesProcessBase.cs" />
+    <Compile Include="Data\LetterBase.cs" />
+    <Compile Include="Data\License.cs" />
+    <Compile Include="Data\ListBase.cs" />
+    <Compile Include="Data\ListMemberBase.cs" />
+    <Compile Include="Data\LocalConfigStoreBase.cs" />
+    <Compile Include="Data\LookUpMappingBase.cs" />
+    <Compile Include="Data\MailboxBase.cs" />
+    <Compile Include="Data\MailboxStatisticsBase.cs" />
+    <Compile Include="Data\MailboxTrackingFolderBase.cs" />
+    <Compile Include="Data\MailMergeTemplateBase.cs" />
+    <Compile Include="Data\MailMergeTemplateBaseIds.cs" />
+    <Compile Include="Data\MatchCode6aefcc923b8b4c5ebe286f077c2227a3.cs" />
+    <Compile Include="Data\MetadataDifference.cs" />
+    <Compile Include="Data\MetadataForMetadata.cs" />
+    <Compile Include="Data\MetadataSyncTrackingDeletedObject.cs" />
+    <Compile Include="Data\MetadataTimestamp.cs" />
+    <Compile Include="Data\MetricBase.cs" />
+    <Compile Include="Data\MobileOfflineProfileBase.cs" />
+    <Compile Include="Data\MobileOfflineProfileBaseIds.cs" />
+    <Compile Include="Data\MobileOfflineProfileItemAssociationBase.cs" />
+    <Compile Include="Data\MobileOfflineProfileItemAssociationBaseIds.cs" />
+    <Compile Include="Data\MobileOfflineProfileItemBase.cs" />
+    <Compile Include="Data\MobileOfflineProfileItemBaseIds.cs" />
+    <Compile Include="Data\msdyn_PostAlbumBase.cs" />
+    <Compile Include="Data\msdyn_PostConfigBase.cs" />
+    <Compile Include="Data\msdyn_PostRuleConfigBase.cs" />
+    <Compile Include="Data\msdyn_wallsavedqueryBase.cs" />
+    <Compile Include="Data\msdyn_wallsavedqueryusersettingsBase.cs" />
+    <Compile Include="Data\MultiEntitySearchBase.cs" />
+    <Compile Include="Data\MultiEntitySearchEntities.cs" />
+    <Compile Include="Data\NewProcessBase.cs" />
+    <Compile Include="Data\new_account_needBase.cs" />
+    <Compile Include="Data\new_article_of_Profit_and_ExpenseBase.cs" />
+    <Compile Include="Data\new_assessmentinitiativeBase.cs" />
+    <Compile Include="Data\new_businessunit_roleBase.cs" />
+    <Compile Include="Data\new_commercial_offerBase.cs" />
+    <Compile Include="Data\new_contract_planBase.cs" />
+    <Compile Include="Data\new_contract_plan_acceptionBase.cs" />
+    <Compile Include="Data\new_contract_plan_adjustment_ccBase.cs" />
+    <Compile Include="Data\new_contract_plan_productBase.cs" />
+    <Compile Include="Data\new_contract_plan_quarterBase.cs" />
+    <Compile Include="Data\new_contract_stringBase.cs" />
+    <Compile Include="Data\new_contract_string_historyBase.cs" />
+    <Compile Include="Data\new_deal_typeBase.cs" />
+    <Compile Include="Data\new_decision_making_levelBase.cs" />
+    <Compile Include="Data\new_document_form_baseBase.cs" />
+    <Compile Include="Data\new_d_doc_typeBase.cs" />
+    <Compile Include="Data\new_d_forms_of_possible_incomeBase.cs" />
+    <Compile Include="Data\new_d_possible_legal_formBase.cs" />
+    <Compile Include="Data\new_d_product_catalogBase.cs" />
+    <Compile Include="Data\new_d_product_groupsBase.cs" />
+    <Compile Include="Data\new_d_product_typesBase.cs" />
+    <Compile Include="Data\new_d_service_typesBase.cs" />
+    <Compile Include="Data\new_d_sphere_of_activityBase.cs" />
+    <Compile Include="Data\new_expense_contractBase.cs" />
+    <Compile Include="Data\new_expertiseBase.cs" />
+    <Compile Include="Data\new_initiative_probabilityBase.cs" />
+    <Compile Include="Data\new_lead_and_possible_contractBase.cs" />
+    <Compile Include="Data\new_licenseBase.cs" />
+    <Compile Include="Data\new_new_account_need_new_t_account_needBase.cs" />
+    <Compile Include="Data\new_new_d_product_catalog_new_t_projectBase.cs" />
+    <Compile Include="Data\new_new_d_service_types_new_t_project_task2Base.cs" />
+    <Compile Include="Data\new_new_package_of_documents_new_expertiseBase.cs" />
+    <Compile Include="Data\new_new_profit_contract_new_expense_contracBase.cs" />
+    <Compile Include="Data\new_new_project_initiative_valuation_systemBase.cs" />
+    <Compile Include="Data\new_new_t_contractor_new_t_project_taskBase.cs" />
+    <Compile Include="Data\new_new_t_project_new_t_projectBase.cs" />
+    <Compile Include="Data\new_new_t_project_task_new_t_project_taskBase.cs" />
+    <Compile Include="Data\new_okiBase.cs" />
+    <Compile Include="Data\new_Package_of_documentsBase.cs" />
+    <Compile Include="Data\new_parameter_project_initiative_evaluationBase.cs" />
+    <Compile Include="Data\new_plan_factBase.cs" />
+    <Compile Include="Data\new_potential_accountBase.cs" />
+    <Compile Include="Data\new_product_of_projectBase.cs" />
+    <Compile Include="Data\new_profit_contractBase.cs" />
+    <Compile Include="Data\new_project_calculation_parametrBase.cs" />
+    <Compile Include="Data\new_Project_deviation_corrective_measureBase.cs" />
+    <Compile Include="Data\new_project_initiativeBase.cs" />
+    <Compile Include="Data\new_project_initiative_valuationBase.cs" />
+    <Compile Include="Data\new_project_project_reporting_indexBase.cs" />
+    <Compile Include="Data\new_project_reportingBase.cs" />
+    <Compile Include="Data\new_project_reporting_indexBase.cs" />
+    <Compile Include="Data\new_project_reporting_index_plan_factBase.cs" />
+    <Compile Include="Data\new_purchaseBase.cs" />
+    <Compile Include="Data\new_RatingBase.cs" />
+    <Compile Include="Data\new_revenue_by_yearBase.cs" />
+    <Compile Include="Data\new_RouteBase.cs" />
+    <Compile Include="Data\new_settingBase.cs" />
+    <Compile Include="Data\new_StageBase.cs" />
+    <Compile Include="Data\new_StepBase.cs" />
+    <Compile Include="Data\new_successful_project_historyBase.cs" />
+    <Compile Include="Data\new_successful_project_history_productBase.cs" />
+    <Compile Include="Data\new_territoryBase.cs" />
+    <Compile Include="Data\new_TransferBase.cs" />
+    <Compile Include="Data\new_t_account_needBase.cs" />
+    <Compile Include="Data\new_t_ActBase.cs" />
+    <Compile Include="Data\new_t_activityBase.cs" />
+    <Compile Include="Data\new_t_contractorBase.cs" />
+    <Compile Include="Data\new_t_contract_productBase.cs" />
+    <Compile Include="Data\new_t_projectBase.cs" />
+    <Compile Include="Data\new_t_project_riskBase.cs" />
+    <Compile Include="Data\new_t_project_taskBase.cs" />
+    <Compile Include="Data\Notification.cs" />
+    <Compile Include="Data\OfficeDocumentBase.cs" />
+    <Compile Include="Data\OfficeGraphDocumentBase.cs" />
+    <Compile Include="Data\OpportunityBase.cs" />
+    <Compile Include="Data\OpportunityCompetitors.cs" />
+    <Compile Include="Data\OpportunityProductBase.cs" />
+    <Compile Include="Data\OpportunitySalesProcessBase.cs" />
+    <Compile Include="Data\OptionSetIds.cs" />
+    <Compile Include="Data\OrganizationBase.cs" />
+    <Compile Include="Data\OrganizationStatisticBase.cs" />
+    <Compile Include="Data\OrganizationUIBase.cs" />
+    <Compile Include="Data\OrgInsightsMetricBase.cs" />
+    <Compile Include="Data\OwnerBase.cs" />
+    <Compile Include="Data\OwnerMappingBase.cs" />
+    <Compile Include="Data\PartnerApplicationBase.cs" />
+    <Compile Include="Data\PersonalDocumentTemplateBase.cs" />
+    <Compile Include="Data\PhoneCallBase.cs" />
+    <Compile Include="Data\PhoneToCaseProcessBase.cs" />
+    <Compile Include="Data\PickListMappingBase.cs" />
+    <Compile Include="Data\PluginAssemblyBase.cs" />
+    <Compile Include="Data\PluginAssemblyBaseIds.cs" />
+    <Compile Include="Data\PluginTraceLogBase.cs" />
+    <Compile Include="Data\PluginTypeBase.cs" />
+    <Compile Include="Data\PluginTypeBaseIds.cs" />
+    <Compile Include="Data\PluginTypeStatisticBase.cs" />
+    <Compile Include="Data\PositionBase.cs" />
+    <Compile Include="Data\PostBase.cs" />
+    <Compile Include="Data\PostCommentBase.cs" />
+    <Compile Include="Data\PostFollowBase.cs" />
+    <Compile Include="Data\PostLikeBase.cs" />
+    <Compile Include="Data\PostRegardingBase.cs" />
+    <Compile Include="Data\PostRoleBase.cs" />
+    <Compile Include="Data\PriceLevelBase.cs" />
+    <Compile Include="Data\PrincipalAttributeAccessMap.cs" />
+    <Compile Include="Data\PrincipalEntityMap.cs" />
+    <Compile Include="Data\PrincipalObjectAccess.cs" />
+    <Compile Include="Data\PrincipalObjectAccessReadSnapshot.cs" />
+    <Compile Include="Data\PrincipalObjectAttributeAccessBase.cs" />
+    <Compile Include="Data\PrincipalSyncAttributeMapBase.cs" />
+    <Compile Include="Data\PrivilegeBase.cs" />
+    <Compile Include="Data\PrivilegeObjectTypeCodes.cs" />
+    <Compile Include="Data\ProcessSessionBase.cs" />
+    <Compile Include="Data\ProcessStageBase.cs" />
+    <Compile Include="Data\ProcessTriggerBase.cs" />
+    <Compile Include="Data\ProductAssociationBase.cs" />
+    <Compile Include="Data\ProductBase.cs" />
+    <Compile Include="Data\ProductPriceLevelBase.cs" />
+    <Compile Include="Data\ProductSalesLiterature.cs" />
+    <Compile Include="Data\ProductSubstituteBase.cs" />
+    <Compile Include="Data\PublisherAddressBase.cs" />
+    <Compile Include="Data\PublisherBase.cs" />
+    <Compile Include="Data\QueueBase.cs" />
+    <Compile Include="Data\QueueItemBase.cs" />
+    <Compile Include="Data\QueueMembership.cs" />
+    <Compile Include="Data\QuoteBase.cs" />
+    <Compile Include="Data\QuoteDetailBase.cs" />
+    <Compile Include="Data\RatingModelBase.cs" />
+    <Compile Include="Data\RatingValueBase.cs" />
+    <Compile Include="Data\RecommendationCacheBase.cs" />
+    <Compile Include="Data\RecommendationModelBase.cs" />
+    <Compile Include="Data\RecommendationModelBaseIds.cs" />
+    <Compile Include="Data\RecommendationModelMappingBase.cs" />
+    <Compile Include="Data\RecommendationModelVersionBase.cs" />
+    <Compile Include="Data\RecommendationModelVersionHistoryBase.cs" />
+    <Compile Include="Data\RecommendedDocumentBase.cs" />
+    <Compile Include="Data\RecordCountSnapshot.cs" />
+    <Compile Include="Data\RecurrenceRuleBase.cs" />
+    <Compile Include="Data\RecurringAppointmentMasterExtensionBase.cs" />
+    <Compile Include="Data\RelationshipIds.cs" />
+    <Compile Include="Data\RelationshipRoleBase.cs" />
+    <Compile Include="Data\RelationshipRoleMapBase.cs" />
+    <Compile Include="Data\ReplicationBacklogBase.cs" />
+    <Compile Include="Data\ReportBase.cs" />
+    <Compile Include="Data\ReportCategoryBase.cs" />
+    <Compile Include="Data\ReportCategoryBaseIds.cs" />
+    <Compile Include="Data\ReportEntityBase.cs" />
+    <Compile Include="Data\ReportLinkBase.cs" />
+    <Compile Include="Data\ReportVisibilityBase.cs" />
+    <Compile Include="Data\ResourceBase.cs" />
+    <Compile Include="Data\ResourceGroupBase.cs" />
+    <Compile Include="Data\ResourceGroupExpansionBase.cs" />
+    <Compile Include="Data\ResourceSpecBase.cs" />
+    <Compile Include="Data\RibbonCommandBase.cs" />
+    <Compile Include="Data\RibbonContextGroupBase.cs" />
+    <Compile Include="Data\RibbonCustomizationBase.cs" />
+    <Compile Include="Data\RibbonDiffBase.cs" />
+    <Compile Include="Data\RibbonRuleBase.cs" />
+    <Compile Include="Data\RibbonTabToCommandMapBase.cs" />
+    <Compile Include="Data\RoleBase.cs" />
+    <Compile Include="Data\RoleBaseIds.cs" />
+    <Compile Include="Data\RolePrivilegesBase.cs" />
+    <Compile Include="Data\RoleTemplateBase.cs" />
+    <Compile Include="Data\RoleTemplatePrivileges.cs" />
+    <Compile Include="Data\RollupFieldBase.cs" />
+    <Compile Include="Data\RollupJobBase.cs" />
+    <Compile Include="Data\RollupPropertiesBase.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_1f7005efada6e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_2721056d22ade81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_306845ef446a42e58df811c31bafaded.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_4349ff878d36e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_94030e73a23ce81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_9f58728f0f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_b6fac3703879e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_bacebbde18e243a7b3fb4bbdf2b2c0e5.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_d2c321243c79e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_e10cdd445c7f4ac8a5d1b2118926f2bd.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_f9e939a60f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_1f7005efada6e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_2721056d22ade81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_306845ef446a42e58df811c31bafaded.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_4349ff878d36e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_94030e73a23ce81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_9f58728f0f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_b6fac3703879e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_bacebbde18e243a7b3fb4bbdf2b2c0e5.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_d2c321243c79e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_e10cdd445c7f4ac8a5d1b2118926f2bd.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Orphans_f9e939a60f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_1f7005efada6e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_2721056d22ade81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_306845ef446a42e58df811c31bafaded.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_4349ff878d36e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_94030e73a23ce81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_9f58728f0f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_b6fac3703879e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_bacebbde18e243a7b3fb4bbdf2b2c0e5.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_d2c321243c79e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_e10cdd445c7f4ac8a5d1b2118926f2bd.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Source_f9e939a60f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_1f7005efada6e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_2721056d22ade81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_306845ef446a42e58df811c31bafaded.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_4349ff878d36e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_94030e73a23ce81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_9f58728f0f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_b6fac3703879e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_bacebbde18e243a7b3fb4bbdf2b2c0e5.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_d2c321243c79e81180d3dbe78f6b8753.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_e10cdd445c7f4ac8a5d1b2118926f2bd.cs" />
+    <Compile Include="Data\Rollup_Bootstrap_Target_f9e939a60f38e81180d2d91123acd40c.cs" />
+    <Compile Include="Data\RoutingRuleBase.cs" />
+    <Compile Include="Data\RoutingRuleBaseIds.cs" />
+    <Compile Include="Data\RoutingRuleItemBase.cs" />
+    <Compile Include="Data\RoutingRuleItemBaseIds.cs" />
+    <Compile Include="Data\RTCRM.cs" />
+    <Compile Include="Data\SalesLiteratureBase.cs" />
+    <Compile Include="Data\SalesLiteratureItemBase.cs" />
+    <Compile Include="Data\SalesOrderBase.cs" />
+    <Compile Include="Data\SalesOrderDetailBase.cs" />
+    <Compile Include="Data\SavedOrgInsightsConfigurationBase.cs" />
+    <Compile Include="Data\SavedQueryBase.cs" />
+    <Compile Include="Data\SavedQueryVisualizationBase.cs" />
+    <Compile Include="Data\SdkMessageBase.cs" />
+    <Compile Include="Data\SdkMessageBaseIds.cs" />
+    <Compile Include="Data\SdkMessageFilterBase.cs" />
+    <Compile Include="Data\SdkMessageFilterBaseIds.cs" />
+    <Compile Include="Data\SdkMessagePairBase.cs" />
+    <Compile Include="Data\SdkMessagePairBaseIds.cs" />
+    <Compile Include="Data\SdkMessageProcessingStepBase.cs" />
+    <Compile Include="Data\SdkMessageProcessingStepBaseIds.cs" />
+    <Compile Include="Data\SdkMessageProcessingStepImageBase.cs" />
+    <Compile Include="Data\SdkMessageProcessingStepSecureConfigBase.cs" />
+    <Compile Include="Data\SdkMessageProcessingStepSecureConfigBaseIds.cs" />
+    <Compile Include="Data\SdkMessageRequestBase.cs" />
+    <Compile Include="Data\SdkMessageRequestBaseIds.cs" />
+    <Compile Include="Data\SdkMessageRequestFieldBase.cs" />
+    <Compile Include="Data\SdkMessageResponseBase.cs" />
+    <Compile Include="Data\SdkMessageResponseBaseIds.cs" />
+    <Compile Include="Data\SdkMessageResponseFieldBase.cs" />
+    <Compile Include="Data\ServiceAppointmentBase.cs" />
+    <Compile Include="Data\ServiceBase.cs" />
+    <Compile Include="Data\ServiceContractContacts.cs" />
+    <Compile Include="Data\ServiceEndpointBase.cs" />
+    <Compile Include="Data\SharedCacheState.cs" />
+    <Compile Include="Data\SharePointDataBase.cs" />
+    <Compile Include="Data\SharePointDocumentBase.cs" />
+    <Compile Include="Data\SharePointDocumentLocationBase.cs" />
+    <Compile Include="Data\SharePointSiteBase.cs" />
+    <Compile Include="Data\SimilarityRuleBase.cs" />
+    <Compile Include="Data\SimilarityRuleBaseIds.cs" />
+    <Compile Include="Data\SiteBase.cs" />
+    <Compile Include="Data\SiteMapBase.cs" />
+    <Compile Include="Data\SLABase.cs" />
+    <Compile Include="Data\SLABaseIds.cs" />
+    <Compile Include="Data\SLAItemBase.cs" />
+    <Compile Include="Data\SLAItemBaseIds.cs" />
+    <Compile Include="Data\SLAKPIInstanceBase.cs" />
+    <Compile Include="Data\SLAKPIInstanceBaseIds.cs" />
+    <Compile Include="Data\SocialActivityBase.cs" />
+    <Compile Include="Data\SocialInsightsConfigurationBase.cs" />
+    <Compile Include="Data\SocialProfileBase.cs" />
+    <Compile Include="Data\SolutionAwareEntitiesForUpgrade.cs" />
+    <Compile Include="Data\SolutionBase.cs" />
+    <Compile Include="Data\SolutionComponentBase.cs" />
+    <Compile Include="Data\SqlEncryptionAudit.cs" />
+    <Compile Include="Data\StatusMapBase.cs" />
+    <Compile Include="Data\StringMapBase.cs" />
+    <Compile Include="Data\SubjectBase.cs" />
+    <Compile Include="Data\Subscription.cs" />
+    <Compile Include="Data\SubscriptionClients.cs" />
+    <Compile Include="Data\SubscriptionManuallyTrackedObject.cs" />
+    <Compile Include="Data\SubscriptionStatisticsOfflineBase.cs" />
+    <Compile Include="Data\SubscriptionStatisticsOutlookBase.cs" />
+    <Compile Include="Data\SubscriptionSyncEntryOfflineBase.cs" />
+    <Compile Include="Data\SubscriptionSyncEntryOutlookBase.cs" />
+    <Compile Include="Data\SubscriptionSyncInfo.cs" />
+    <Compile Include="Data\SubscriptionTrackingDeletedObject.cs" />
+    <Compile Include="Data\SyncAttributeMappingBase.cs" />
+    <Compile Include="Data\SyncAttributeMappingProfileBase.cs" />
+    <Compile Include="Data\SyncErrorBase.cs" />
+    <Compile Include="Data\SystemApplicationMetadataBase.cs" />
+    <Compile Include="Data\SystemApplicationMetadataChild.cs" />
+    <Compile Include="Data\SystemFormBase.cs" />
+    <Compile Include="Data\SystemUserBase.cs" />
+    <Compile Include="Data\SystemUserBusinessUnitEntityMap.cs" />
+    <Compile Include="Data\SystemUserLicenses.cs" />
+    <Compile Include="Data\SystemUserManagerMap.cs" />
+    <Compile Include="Data\SystemUserPrincipals.cs" />
+    <Compile Include="Data\SystemUserProfiles.cs" />
+    <Compile Include="Data\SystemUserRoles.cs" />
+    <Compile Include="Data\SystemUserSyncMappingProfiles.cs" />
+    <Compile Include="Data\TaskBase.cs" />
+    <Compile Include="Data\TeamBase.cs" />
+    <Compile Include="Data\TeamMembership.cs" />
+    <Compile Include="Data\TeamProfiles.cs" />
+    <Compile Include="Data\TeamRoles.cs" />
+    <Compile Include="Data\TeamSyncAttributeMappingProfiles.cs" />
+    <Compile Include="Data\TeamTemplateBase.cs" />
+    <Compile Include="Data\TemplateBase.cs" />
+    <Compile Include="Data\TemplateBaseIds.cs" />
+    <Compile Include="Data\TerritoryBase.cs" />
+    <Compile Include="Data\TextAnalyticsEntityMappingBase.cs" />
+    <Compile Include="Data\ThemeBase.cs" />
+    <Compile Include="Data\TimeStampDateMapping.cs" />
+    <Compile Include="Data\TimeZoneDefinitionBase.cs" />
+    <Compile Include="Data\TimeZoneLocalizedNameBase.cs" />
+    <Compile Include="Data\TimeZoneRuleBase.cs" />
+    <Compile Include="Data\TopicBase.cs" />
+    <Compile Include="Data\TopicHistoryBase.cs" />
+    <Compile Include="Data\TopicModelBase.cs" />
+    <Compile Include="Data\TopicModelConfigurationBase.cs" />
+    <Compile Include="Data\TopicModelConfigurationBaseIds.cs" />
+    <Compile Include="Data\TopicModelExecutionHistoryBase.cs" />
+    <Compile Include="Data\TraceAssociationBase.cs" />
+    <Compile Include="Data\TraceLogBase.cs" />
+    <Compile Include="Data\TraceRegardingBase.cs" />
+    <Compile Include="Data\TransactionCurrencyBase.cs" />
+    <Compile Include="Data\TransformationMappingBase.cs" />
+    <Compile Include="Data\TransformationParameterMappingBase.cs" />
+    <Compile Include="Data\TranslationProcessBase.cs" />
+    <Compile Include="Data\UnresolvedAddressBase.cs" />
+    <Compile Include="Data\UntrackedEmailBase.cs" />
+    <Compile Include="Data\UoMBase.cs" />
+    <Compile Include="Data\UoMScheduleBase.cs" />
+    <Compile Include="Data\UpgradeActionTracker.cs" />
+    <Compile Include="Data\UserApplicationMetadataBase.cs" />
+    <Compile Include="Data\UserEntityInstanceDataBase.cs" />
+    <Compile Include="Data\UserEntityUISettingsBase.cs" />
+    <Compile Include="Data\UserFiscalCalendarBase.cs" />
+    <Compile Include="Data\UserFormBase.cs" />
+    <Compile Include="Data\UserMappingBase.cs" />
+    <Compile Include="Data\UserQueryBase.cs" />
+    <Compile Include="Data\UserQueryVisualizationBase.cs" />
+    <Compile Include="Data\UserSearchFacetBase.cs" />
+    <Compile Include="Data\UserSettingsBase.cs" />
+    <Compile Include="Data\WebResourceBase.cs" />
+    <Compile Include="Data\WebResourceBaseIds.cs" />
+    <Compile Include="Data\WebWizardBase.cs" />
+    <Compile Include="Data\WizardAccessPrivilegeBase.cs" />
+    <Compile Include="Data\WizardPageBase.cs" />
+    <Compile Include="Data\WorkflowBase.cs" />
+    <Compile Include="Data\WorkflowBaseIds.cs" />
+    <Compile Include="Data\WorkflowDependencyBase.cs" />
+    <Compile Include="Data\WorkflowLogBase.cs" />
+    <Compile Include="Data\WorkflowWaitSubscriptionBase.cs" />
+    <Compile Include="Data\xd_activity_presaleBase.cs" />
+    <Compile Include="FolderSectionDesigner.csd.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FolderSectionDesigner.csd</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\FilemanagerUriHelper.cs" />
+    <Compile Include="Helper\GridViewFeaturesHelper.cs" />
+    <Compile Include="Helper\MapHelper.cs" />
+    <Compile Include="Models\FileManager\FolderModel.cs" />
+    <Compile Include="Models\FileManager\FolderPathModel.cs" />
+    <Compile Include="Models\IdNotFoundViewModel.cs" />
+    <Compile Include="Models\IndexViewModel.cs" />
+    <Compile Include="Models\Map\DonPoint.cs" />
+    <Compile Include="Models\Map\GeoModel.cs" />
+    <Compile Include="Models\Map\InitModel.cs" />
+    <Compile Include="Models\Map\MapModel.cs" />
+    <Compile Include="Models\Map\ProductCatalogModel.cs" />
+    <Compile Include="Models\Map\ProductReadinessModel.cs" />
+    <Compile Include="Models\Map\Project.cs" />
+    <Compile Include="Models\Map\Risk.cs" />
+    <Compile Include="Models\Map\ReportModel.cs" />
+    <Compile Include="Models\Map\ReportModelSuccess.cs" />
+    <Compile Include="Models\Map\Subject.cs" />
+    <Compile Include="Models\Map\SuccessStoryModel.cs" />
+    <Compile Include="Models\Map\SuccessStorySubNames.cs" />
+    <Compile Include="Models\Map\Task.cs" />
+    <Compile Include="Models\SpreadSheet\SpreadSheetModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AllYear.cs" />
+    <Compile Include="ViewModels\ContractPlan.cs" />
+    <Compile Include="ViewModels\EditableProduct.cs" />
+    <Compile Include="ViewModels\IndexViewModel.cs" />
+    <Compile Include="ViewModels\QueryPropertyMessage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Xdsoft.RTK.CRMData\Xdsoft.RTK.CRMData.csproj">
+      <Project>{166F2481-C3EF-4039-9F1A-9FC17B086EA7}</Project>
+      <Name>Xdsoft.RTK.CRMData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>47186</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:47186/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

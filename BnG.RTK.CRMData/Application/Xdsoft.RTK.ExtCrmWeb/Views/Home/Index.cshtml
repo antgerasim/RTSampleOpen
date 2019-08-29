@@ -1,0 +1,20 @@
+﻿@model Xdsoft.RTK.ExtCrmWeb.Models.IndexViewModel
+
+@*<script>
+
+    function OnBeginCallback(s, e) {
+        //console.log('OnBeginCallback-s', s);
+        //console.log('OnBeginCallback-e', e);
+        //e.customArgs["dor-id"] = employeeId;
+        //employeeId = null;
+    }
+    function OnEndCallback(s, e) {
+        //console.log('OnEndCallback-s', s);
+        //console.log('OnEndCallback-e', e);
+    }
+</script>*@
+
+@using (Html.BeginForm())
+{
+    @Html.Action("FileManagerPartial", new { url = Model.Id, typename = Model.Typename, Model.Fmtype, Model.Sfmtype })
+}

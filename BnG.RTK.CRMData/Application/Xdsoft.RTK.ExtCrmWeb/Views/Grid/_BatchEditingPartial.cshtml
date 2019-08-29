@@ -1,0 +1,524 @@
+﻿@using Xdsoft.RTK.ExtCrmWeb.ViewModels
+@using System.Web.UI.WebControls
+@using System.Diagnostics;
+@using Xdsoft.RTK.ExtCrmWeb.Helper
+@using Xdsoft.RTK.ExtCrmWeb.Data;
+@using Xdsoft.RTK.ExtCrmWeb.Controllers
+@model IEnumerable<EditableProduct>
+
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    var list = new List<AllYear>();
+    var listDec = new List<decimal>();
+
+    Html.DevExpress().GridView(settings =>
+    {
+        var contractstatus = Session["contractstatus"].ToString();
+        //Debug.Write(Session["contractstatus"]);
+
+        var currentQuarter = Session["quarterhlight"].ToString();
+        settings.Name = "GridView";
+        settings.KeyFieldName = "ProductId";
+
+        settings.Width = Unit.Percentage(100);
+        settings.CallbackRouteValues = new
+        {
+            Controller = "Grid",
+            Action = "BatchEditingPartial"
+        };
+
+        settings.SettingsEditing.BatchUpdateRouteValues = new
+        {
+            Controller = "Grid",
+            Action = "BatchEditingUpdateModel"
+        };
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
+        settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.FocusedCellClick;
+        settings.SettingsEditing.BatchEditSettings.HighlightDeletedRows = true;
+
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowNewButtonInHeader = false;
+        settings.CommandColumn.Width = Unit.Point(50);
+
+
+        //settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollableHeight = 800;
+        settings.SettingsPager.PageSize = 30;
+
+        settings.PreRender = (s, e) =>
+        {
+            MVCxGridView gridView = (MVCxGridView)s;
+            gridView.ExpandAll();
+        };
+
+        if (contractstatus != "1")
+        {
+            settings.SettingsDataSecurity.AllowEdit = false;
+            settings.SettingsDataSecurity.AllowDelete = false;
+            settings.SettingsDataSecurity.AllowInsert = false;
+        }
+        else
+        {
+            settings.SettingsDataSecurity.AllowEdit = true;
+            settings.SettingsDataSecurity.AllowDelete = true;
+            settings.SettingsDataSecurity.AllowInsert = true;
+        }
+
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "ProductGroupProduct";
+            c.Caption = "Продуктовая Группа";
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+            c.GroupIndex = 0;
+            c.HeaderStyle.Font.Bold = true;
+
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Product";
+            c.Caption = "Продукт";
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+            c.HeaderStyle.Font.Bold = true;
+            c.Settings.AllowSort = DefaultBoolean.False;
+        });
+
+        settings.Columns.AddBand(firstQBand =>
+        {
+            firstQBand.Caption = "1 квартал";
+            firstQBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            firstQBand.HeaderStyle.BackColor = currentQuarter == "q1" ? System.Drawing.Color.LightGray : System.Drawing.Color.White; ; //lightslategrey
+            firstQBand.HeaderStyle.Font.Bold = true;
+            //firstQBand.SetHeaderCaptionTemplateContent(c =>
+            //{
+
+            //    Html.DevExpress().CheckBox(cb =>
+            //    {
+            //        cb.Name = "c1b";
+            //        cb.Properties.CheckBoxStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+            //        cb.Properties.ClientSideEvents.CheckedChanged = "foo";
+
+            //    }).Render();
+
+            //});
+
+            firstQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Service1Quarter";
+                c.Caption = "Сервис";
+                c.HeaderStyle.Font.Bold = true;
+                //currentQuarter == "q1" ?
+                //c.HeaderStyle.BackColor = currentQuarter == "q1" ? System.Drawing.Color.LightGray : System.Drawing.Color.White;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+
+            firstQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Consult1Quarter";
+                c.Caption = "Консалтинг";
+
+                c.HeaderStyle.Font.Bold = true;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+
+            firstQBand.Columns.Add(c =>
+            {
+                c.FieldName = "FirstQuartalTotal";
+                c.Caption = "Итого";
+                c.PropertiesEdit.DisplayFormatString = "N";
+                c.HeaderStyle.Font.Bold = true;
+                c.HeaderStyle.BackColor = System.Drawing.Color.LightYellow;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditFormSettings.Visible = DefaultBoolean.False;
+            });
+        });
+
+        settings.Columns.AddBand(secondQBand =>
+        {
+            secondQBand.Caption = "2 квартал";
+            secondQBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            secondQBand.HeaderStyle.BackColor = currentQuarter == "q2" ? System.Drawing.Color.LightGray : System.Drawing.Color.White; ; //lightslategrey
+            secondQBand.HeaderStyle.Font.Bold = true;
+
+            secondQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Service2Quarter";
+                c.Caption = "Сервис";
+
+                c.HeaderStyle.Font.Bold = true;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+
+            secondQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Consult2Quarter";
+                c.Caption = "Консалтинг";
+
+                c.HeaderStyle.Font.Bold = true;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+
+            secondQBand.Columns.Add(c =>
+            {
+                c.FieldName = "SecondQuartalTotal";
+                c.Caption = "Итого";
+                c.PropertiesEdit.DisplayFormatString = "N";
+                c.HeaderStyle.Font.Bold = true;
+                c.HeaderStyle.BackColor = System.Drawing.Color.LightYellow;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditFormSettings.Visible = DefaultBoolean.False;
+            });
+        });
+
+        settings.Columns.AddBand(thirdQBand =>
+        {
+            thirdQBand.Caption = "3 квартал";
+            thirdQBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            thirdQBand.HeaderStyle.BackColor = currentQuarter == "q3" ? System.Drawing.Color.LightGray : System.Drawing.Color.White; ; //lightslategrey
+            thirdQBand.HeaderStyle.Font.Bold = true;
+
+
+            thirdQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Service3Quarter";
+                c.Caption = "Сервис";
+
+                c.HeaderStyle.Font.Bold = true;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+
+            thirdQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Consult3Quarter";
+                c.Caption = "Консалтинг";
+
+                c.HeaderStyle.Font.Bold = true;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+            thirdQBand.Columns.Add(c =>
+            {
+                c.FieldName = "ThirdQuartalTotal";
+                c.Caption = "Итого";
+                c.PropertiesEdit.DisplayFormatString = "N";
+                c.HeaderStyle.Font.Bold = true;
+                c.HeaderStyle.BackColor = System.Drawing.Color.LightYellow;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditFormSettings.Visible = DefaultBoolean.False;
+            });
+        });
+
+        settings.Columns.AddBand(fourthQBand =>
+        {
+            fourthQBand.Caption = "4 квартал";
+            fourthQBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            fourthQBand.HeaderStyle.BackColor = currentQuarter == "q4" ? System.Drawing.Color.LightGray : System.Drawing.Color.White; ; //lightslategrey
+            fourthQBand.HeaderStyle.Font.Bold = true;
+
+            fourthQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Service4Quarter";
+                c.Caption = "Сервис";
+
+                c.HeaderStyle.Font.Bold = true;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+
+            fourthQBand.Columns.Add(c =>
+            {
+                c.FieldName = "Consult4Quarter";
+                c.Caption = "Консалтинг";
+
+                c.HeaderStyle.Font.Bold = true;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditorProperties().SpinEdit(p =>
+                {
+                    p.DisplayFormatString = "N";
+                    p.DisplayFormatInEditMode = false;
+                    p.AllowMouseWheel = false;
+                    p.SpinButtons.ShowIncrementButtons = false;
+                });
+            });
+
+            fourthQBand.Columns.Add(c =>
+            {
+                c.FieldName = "FourthQuartalTotal";
+                c.Caption = "Итого";
+                c.PropertiesEdit.DisplayFormatString = "N";
+                c.HeaderStyle.Font.Bold = true;
+                c.HeaderStyle.BackColor = System.Drawing.Color.LightYellow;
+                c.Settings.AllowSort = DefaultBoolean.False;
+                c.EditFormSettings.Visible = DefaultBoolean.False;
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NewServiceYear";
+            c.Caption = "Сервис переходящий";
+            c.PropertiesEdit.DisplayFormatString = "N";
+            c.HeaderStyle.Font.Bold = true;
+            c.Settings.AllowSort = DefaultBoolean.False;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NewConsultYear";
+            c.Caption = "Консалтинг переходящий";
+
+            c.HeaderStyle.Font.Bold = true;
+            c.Settings.AllowSort = DefaultBoolean.False;
+
+            c.EditorProperties().SpinEdit(p =>
+            {
+                p.DisplayFormatString = "N";
+                p.DisplayFormatInEditMode = false;
+                p.AllowMouseWheel = false;
+                p.SpinButtons.ShowIncrementButtons = false;
+            });
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NewProductTotalService";
+            c.Caption = "Итого сервис";
+            c.PropertiesEdit.DisplayFormatString = "N";
+            c.HeaderStyle.Font.Bold = true;
+            c.HeaderStyle.BackColor = System.Drawing.Color.LightYellow;
+            c.Settings.AllowSort = DefaultBoolean.False;
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "NewProductTotalConsult";
+            c.Caption = "Итого консалтинг";
+            c.PropertiesEdit.DisplayFormatString = "N";
+            c.HeaderStyle.Font.Bold = true;
+            c.HeaderStyle.BackColor = System.Drawing.Color.LightYellow;
+            c.Settings.AllowSort = DefaultBoolean.False;
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "FloatingContractsYearTotal";
+            c.Caption = "Итого переходящие";
+            c.PropertiesEdit.DisplayFormatString = "N";
+            c.HeaderStyle.Font.Bold = true;
+            c.HeaderStyle.BackColor = System.Drawing.Color.LightYellow;
+            c.Settings.AllowSort = DefaultBoolean.False;
+            c.EditFormSettings.Visible = DefaultBoolean.False;
+        });
+
+        //unbound data
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "AllYearUnbound";
+            col.Caption = "Всего год";
+            col.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            col.Visible = false;
+        });
+
+
+        settings.CustomUnboundColumnData = (s, e) =>
+        {
+
+            if (e.Column.FieldName == "AllYearUnbound")
+            {
+                string productName = Convert.ToString((e.GetListSourceFieldValue("Product")));
+                decimal productTotalService = Convert.ToInt32((e.GetListSourceFieldValue("NewProductTotalService")));
+                decimal productTotalConsult = Convert.ToInt32((e.GetListSourceFieldValue("NewProductTotalConsult")));
+                decimal floatingContractsYearTotal = Convert.ToInt32((e.GetListSourceFieldValue("FloatingContractsYearTotal")));
+                //decimal fourthQuartalTotal = Convert.ToInt32((e.GetListSourceFieldValue("FourthQuartalTotal")));
+                var calRslt = productTotalService + productTotalConsult + floatingContractsYearTotal; // total for each AllYearUnbound row
+                listDec.Add(calRslt);
+                e.Value = calRslt;
+            }
+        };
+
+        settings.CustomSummaryCalculate = (s, e) =>
+        {
+            ASPxSummaryItem summery = e.Item as ASPxSummaryItem;
+            MVCxGridView gridView = s as MVCxGridView;
+
+            if (summery.FieldName == "AllYearUnbound")
+            {
+                decimal newProductTotalService;
+                decimal newProductTotalConsult;
+                decimal floatingContractsYearTotal;
+
+
+                if (e.SummaryProcess == DevExpress.Data.CustomSummaryProcess.Start)
+                {
+                    newProductTotalService = 0;
+                    newProductTotalConsult = 0;
+                    floatingContractsYearTotal = 0;
+
+
+                }
+                else if (e.SummaryProcess == DevExpress.Data.CustomSummaryProcess.Calculate)
+                {
+                    //empty
+                }
+                else if (e.SummaryProcess == DevExpress.Data.CustomSummaryProcess.Finalize)
+                {
+                    ASPxSummaryItem totalServClm = (gridView).TotalSummary["NewProductTotalService"];
+                    ASPxSummaryItem totalConsltClm = (gridView).TotalSummary["NewProductTotalConsult"];
+                    ASPxSummaryItem totalFloatClm = (gridView).TotalSummary["FloatingContractsYearTotal"];
+                    newProductTotalService = Convert.ToDecimal((gridView).GetTotalSummaryValue(totalServClm));
+                    newProductTotalConsult = Convert.ToDecimal((gridView).GetTotalSummaryValue(totalConsltClm));
+                    floatingContractsYearTotal = Convert.ToDecimal((gridView).GetTotalSummaryValue(totalFloatClm));
+
+                    var allTotalYear = newProductTotalService + newProductTotalConsult + floatingContractsYearTotal;
+
+                    RTCRM Db = new RTCRM();
+                    var sessionstr2 = Session["parenttableid"] as string;
+                    var contractPlainId = Guid.Parse(sessionstr2);
+                    var contractPlan1 = Db.new_contract_planBase.FirstOrDefault(contrplan => contrplan.new_contract_planId == contractPlainId);
+
+
+                    //contractPlan2.new_total = allTotalYear;
+                    var gridCtrl = ViewContext.Controller as GridController;
+
+                    if (gridCtrl.Request.IsAjaxRequest())
+                    {
+                        contractPlan1.new_total = allTotalYear;
+
+                        Db.SaveChanges();
+                    }
+
+                    e.TotalValue = allTotalYear;
+                    e.TotalValueReady = true;
+                    summery.Visible = false;
+                }
+            }
+        };
+        //var foo =  list; // check count here
+
+        settings.SummaryDisplayText = (s, e) =>
+        {
+
+            if (e.Item.FieldName == "Product")
+            {
+                e.Text = "Итого:";
+            }
+            else
+            {
+                e.Text = ((decimal)e.Value).ToString("N2");
+            }
+
+        };
+        //ProductGroupProduct Product
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Product");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Service1Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Consult1Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "FirstQuartalTotal");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Service2Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Consult2Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "SecondQuartalTotal");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Service3Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Consult3Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ThirdQuartalTotal");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Service4Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Consult4Quarter");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "FourthQuartalTotal");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NewServiceYear");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NewConsultYear");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NewProductTotalService");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NewProductTotalConsult");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "FloatingContractsYearTotal");
+        //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AllYearUnbound");
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Custom, "AllYearUnbound");
+
+
+        //ASPxSummaryItem allTotalSumItem = new ASPxSummaryItem();
+        //settings.TotalSummary.Add()
+
+
+        //settings.CustomColumnGroup
+
+        settings.HtmlDataCellPrepared = (s, e) =>
+        {
+
+            //var currentColumn = e.DataColumn;
+            if (e.DataColumn.Caption.StartsWith("Итого"))
+            {
+                e.Cell.BackColor = System.Drawing.Color.LightYellow;
+            }
+
+        };
+
+        settings.Settings.ShowFooter = true;
+        settings.Styles.Footer.Font.Bold = true;
+        settings.Settings.ShowGroupFooter = GridViewGroupFooterMode.VisibleAlways;
+
+        //added
+
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        GridViewCommandColumnCustomButton customButton = new GridViewCommandColumnCustomButton();
+        customButton.Text = "Delete";
+        customButton.ID = "deleteButton";
+        settings.CommandColumn.CustomButtons.Add(customButton);
+        GridViewFeaturesHelper.SetupGlobalGridViewBehavior(settings);
+
+    }).Bind(Model).GetHtml();
+
+}
+
+

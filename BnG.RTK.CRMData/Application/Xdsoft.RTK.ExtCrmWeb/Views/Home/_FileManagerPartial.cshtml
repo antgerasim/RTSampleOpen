@@ -1,0 +1,46 @@
+﻿@model string
+
+@Html.DevExpress().FileManager(settings => {
+    settings.Name = "RtCrmFileManager";
+
+    settings.CallbackRouteValues = new { Controller = "Home", Action = "FileManagerPartial", id = ViewBag.dorid, typename = ViewBag.dortypename, fmtype = ViewBag.dorfmtype, sfmtype = ViewBag.dorsfmtype, formData = formData };
+
+    settings.DownloadRouteValues = new { Controller = "Home", Action = "FileManagerPartialDownload", id="testRootValue"};
+    settings.SettingsEditing.AllowDownload = true;
+
+    settings.ClientSideEvents.SelectedFileOpened = "function(s, e) { e.file.Download(); e.processOnServer = false; }";
+
+    settings.Settings.ThumbnailFolder = Url.Content("~/Content/FileManager/Thumbnails");
+
+    settings.SettingsEditing.AllowCreate = true;
+    settings.SettingsEditing.AllowRename = true;
+    settings.SettingsEditing.AllowMove = true;
+    settings.SettingsEditing.AllowDelete = true;
+    settings.SettingsUpload.Enabled = true;
+    settings.SettingsUpload.UseAdvancedUploadMode = true;
+    settings.SettingsUpload.AdvancedModeSettings.EnableMultiSelect = true;
+    settings.SettingsFolders.EnableCallBacks = false;
+    settings.SettingsFileList.View = DevExpress.Web.FileListView.Details; //regeradless of small big always details
+
+    //Must be session in order to enable ajax
+    //var fmtype = Session["lastfmtype"] as string;
+    var fmtype = ViewBag.dorfmtype;
+    if (string.IsNullOrEmpty(fmtype))
+    {
+        fmtype = "big";
+    }
+
+    //var sfmType = Session["lastsfmtype"] as string;
+    if (fmtype == "small")
+    {
+        //settings.SettingsFileList.View = DevExpress.Web.FileListView.Details; // table view of files
+        settings.SettingsFolders.Visible = false; // folder treeview disable
+        settings.SettingsToolbar.Visible = false; // upper toolbar disable
+        settings.Height = 150;
+    }
+    //script location in Views\Home\Index.cshtml
+    //settings.ClientSideEvents.BeginCallback = "OnBeginCallback"; 
+    //settings.ClientSideEvents.EndCallback = "OnEndCallback";
+
+
+}).BindToFolder(Model).GetHtml()

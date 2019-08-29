@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Xdsoft.RTK.ExtCrmWeb.Models.Map.MapModel>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
+@*<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>*@
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet-src.js" integrity="sha512-+ZaXMZ7sjFMiCigvm8WjllFy6g3aou3+GZngAtugLzrmPFKFK7yjSri0XnElvCTu/PrifAYQuxZTybAEkA8VOA==" crossorigin=""></script>
+
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    #map {
+        width: 600px;
+        height: 400px;
+    }
+</style>
+
+
+<div id="map">
+
+</div>
+
+<script>
+    var encodedViewDataModel = @Html.Raw(Json.Encode(Model));
+    var geoJson = createGeojsonFrom(encodedViewDataModel);
+
+    var overlayGeojson = {}
+
+    var cities = L.layerGroup();
+
+
+    L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.').addTo(cities),
+        L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.').addTo(cities),
+        L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.').addTo(cities),
+        L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.').addTo(cities);
+
+
+    var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+    var grayscale = L.tileLayer(mbUrl, { id: 'mapbox.light', attribution: mbAttr }),
+        streets = L.tileLayer(mbUrl, { id: 'mapbox.streets', attribution: mbAttr });
+
+    var map = L.map('map', {
+        center: [39.73, -104.99],
+        zoom: 10,
+        layers: [grayscale, cities]
+    });
+
+    var baseLayers = {
+        "Grayscale": grayscale,
+        "Streets": streets
+    };
+
+    var overlays = {
+        "Cities": cities
+    };
+
+    L.control.layers(baseLayers, overlays).addTo(map);
+
+    function createGeojsonFrom(json) {
+        var geojson = {};;
+        geojson['type'] = 'FeatureCollection';
+        geojson['features'] = [];
+
+        for (var i = 0; i < json.length; i++) {
+            var obj = json[i];
+            console.log(obj)
+            var array = JSON.parse(obj.SubjectCoordinates);
+            //var latLngArrayTest = obj.SubjectCoordinates.map(function (point) {
+            //    return [point[0], point[1]];
+            //});
+            console.log('converted array', array);
+            var latLngArray = JSON.parse(obj.SubjectCoordinates);
+            var subjectCode = obj.SubjectCode;
+            var subjectName = obj.SubjectName;
+            var subjectCount = obj.ProjectCount;
+            //var subjectCodeMock = getRndInteger(1, 85)
+
+            var newFeature = {
+                "type": "Feature",
+                "properties": {
+                    "name": subjectName,
+                    "subjectcode": subjectCode,
+                    "projects": setVarIfUndefined(subjectCount)
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        latLngArray
+                    ]
+                }
+            }
+            geojson.features.push(newFeature);
+        }//end loop
+        return geojson;
+    }
+
+//oneachfeaturestuff...
+
+//https://gis.stackexchange.com/questions/264788/creating-toggle-layers-in-leaflet
+//https://plnkr.co/edit/rf2JDe3RfF9p8Xm3Ga98?p=preview
+
+//https://gis.stackexchange.com/questions/169011/leaflet-how-to-create-toggleable-overlays-from-a-single-geojson-featurecollecti/169038
+//https://jsfiddle.net/qkvo7hav/7/
+
+</script>
+
